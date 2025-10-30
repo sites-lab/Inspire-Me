@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InspireMe - Platform for Teen Entrepreneurs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #1DA1F2;
@@ -14,6 +15,7 @@
             --border-color: #e6ecf0;
             --hover-color: #f5f8fa;
             --success-color: #17bf63;
+            --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
         * {
@@ -31,7 +33,7 @@
 
         .container {
             display: flex;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
@@ -42,68 +44,107 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            padding: 12px 20px;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: bold;
             color: var(--primary-color);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            font-size: 28px;
         }
 
         .search-bar {
             flex: 1;
             max-width: 500px;
             margin: 0 20px;
+            position: relative;
         }
 
         .search-bar input {
             width: 100%;
-            padding: 8px 12px;
-            border-radius: 20px;
+            padding: 10px 15px 10px 40px;
+            border-radius: 25px;
             border: 1px solid var(--border-color);
             background-color: var(--hover-color);
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .search-bar input:focus {
+            background-color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.2);
+            outline: none;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #657786;
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 25px;
         }
 
         .nav-links a {
             color: var(--text-color);
             text-decoration: none;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.2s;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active {
+            background-color: var(--hover-color);
             color: var(--primary-color);
         }
 
         .user-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
         }
 
         .btn {
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
             border: none;
+            transition: all 0.2s;
+            font-size: 14px;
         }
 
         .btn-primary {
             background-color: var(--primary-color);
             color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1a91da;
         }
 
         .btn-outline {
@@ -112,25 +153,92 @@
             color: var(--primary-color);
         }
 
+        .btn-outline:hover {
+            background-color: rgba(29, 161, 242, 0.1);
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .user-avatar:hover {
+            border-color: var(--primary-color);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            width: 220px;
+            padding: 10px 0;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--hover-color);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 8px 0;
+        }
+
         /* Main Content Styles */
         .sidebar {
-            width: 250px;
-            padding: 20px;
+            width: 260px;
+            padding: 20px 15px;
             background-color: var(--sidebar-color);
             border-right: 1px solid var(--border-color);
-            height: calc(100vh - 60px);
+            height: calc(100vh - 64px);
             position: sticky;
-            top: 60px;
+            top: 64px;
             overflow-y: auto;
         }
 
         .sidebar-section {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .sidebar-section h3 {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 16px;
+            color: #657786;
+            font-weight: 600;
+            padding-left: 10px;
         }
 
         .sidebar-links {
@@ -138,7 +246,7 @@
         }
 
         .sidebar-links li {
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .sidebar-links a {
@@ -146,17 +254,27 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 5px 0;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
-        .sidebar-links a:hover {
+        .sidebar-links a:hover, .sidebar-links a.active {
+            background-color: white;
             color: var(--primary-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .sidebar-links i {
+            width: 20px;
+            text-align: center;
         }
 
         .main-content {
             flex: 1;
-            padding: 20px;
+            padding: 25px;
+            max-width: 700px;
         }
 
         .content-header {
@@ -168,6 +286,7 @@
 
         .content-header h1 {
             font-size: 24px;
+            font-weight: 800;
         }
 
         .tabs {
@@ -177,52 +296,69 @@
         }
 
         .tab {
-            padding: 10px 20px;
+            padding: 12px 20px;
             cursor: pointer;
             font-weight: 500;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            background-color: var(--hover-color);
         }
 
         .tab.active {
-            border-bottom: 2px solid var(--primary-color);
             color: var(--primary-color);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px 3px 0 0;
         }
 
         /* Post Styles */
         .posts {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 18px;
         }
 
         .post {
             background-color: white;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            transition: box-shadow 0.2s;
+            border-radius: 12px;
+            padding: 18px;
+            transition: all 0.2s;
+            box-shadow: var(--card-shadow);
         }
 
         .post:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .post-header {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
+        .post-user-avatar {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background-color: var(--primary-color);
-            margin-right: 10px;
+            margin-right: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
+            font-size: 18px;
         }
 
         .user-info {
@@ -231,6 +367,9 @@
 
         .username {
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .post-time {
@@ -240,71 +379,95 @@
 
         .post-category {
             background-color: var(--hover-color);
-            padding: 2px 8px;
-            border-radius: 12px;
+            padding: 4px 10px;
+            border-radius: 16px;
             font-size: 12px;
             color: #657786;
+            font-weight: 500;
         }
 
         .post-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.3;
         }
 
         .post-content {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            line-height: 1.5;
         }
 
         .post-image {
             width: 100%;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            max-height: 400px;
+            object-fit: cover;
         }
 
         .post-actions {
             display: flex;
-            gap: 20px;
+            gap: 25px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
         }
 
         .action {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             color: #657786;
             cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-weight: 500;
         }
 
         .action:hover {
-            color: var(--primary-color);
+            background-color: var(--hover-color);
+        }
+
+        .action.liked {
+            color: #e0245e;
+        }
+
+        .action i {
+            font-size: 18px;
         }
 
         /* Right Sidebar Styles */
         .right-sidebar {
-            width: 300px;
-            padding: 20px;
+            width: 320px;
+            padding: 25px 20px;
             background-color: var(--sidebar-color);
             border-left: 1px solid var(--border-color);
-            height: calc(100vh - 60px);
+            height: calc(100vh - 64px);
             position: sticky;
-            top: 60px;
+            top: 64px;
             overflow-y: auto;
         }
 
-        .trending-section, .resources-section {
+        .trending-section, .resources-section, .premium-section {
             margin-bottom: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
         }
 
         .section-title {
             font-size: 18px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
             border-bottom: 1px solid var(--border-color);
         }
 
         .trending-item, .resource-item {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -315,13 +478,33 @@
         }
 
         .trending-title, .resource-title {
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.3;
         }
 
         .trending-stats, .resource-description {
             font-size: 14px;
             color: #657786;
+        }
+
+        .premium-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .premium-card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .premium-card p {
+            margin-bottom: 20px;
+            opacity: 0.9;
         }
 
         /* Modal Styles */
@@ -333,9 +516,10 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            z-index: 2000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(4px);
         }
 
         .modal-content {
@@ -343,7 +527,16 @@
             border-radius: 16px;
             width: 500px;
             max-width: 90%;
-            padding: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .modal-header {
@@ -353,41 +546,65 @@
             margin-bottom: 20px;
         }
 
+        .modal-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
         .close-modal {
             background: none;
             border: none;
             font-size: 24px;
             cursor: pointer;
             color: #657786;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .close-modal:hover {
+            background-color: var(--hover-color);
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
+            margin-bottom: 6px;
+            font-weight: 600;
         }
 
         .form-control {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.2);
+            outline: none;
         }
 
         textarea.form-control {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
         }
 
         /* Premium Badge */
         .premium-badge {
-            background-color: gold;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             color: #333;
-            padding: 2px 8px;
+            padding: 4px 10px;
             border-radius: 12px;
             font-size: 12px;
             font-weight: bold;
@@ -395,7 +612,7 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
+        @media (max-width: 1100px) {
             .right-sidebar {
                 display: none;
             }
@@ -421,6 +638,39 @@
             .nav-links {
                 display: none;
             }
+            
+            .main-content {
+                padding: 15px;
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            transform: translateX(150%);
+            transition: transform 0.3s;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .notification.error {
+            border-left: 4px solid #e0245e;
         }
     </style>
 </head>
@@ -428,19 +678,34 @@
     <!-- Header -->
     <header>
         <div class="header-content">
-            <a href="#" class="logo">InspireMe</a>
+            <a href="#" class="logo">
+                <i class="fas fa-lightbulb"></i>
+                InspireMe
+            </a>
             <div class="search-bar">
+                <i class="fas fa-search"></i>
                 <input type="text" placeholder="Search ideas, projects, users...">
             </div>
             <nav class="nav-links">
-                <a href="#" class="active">Home</a>
-                <a href="#">Categories</a>
-                <a href="#">Partnerships</a>
-                <a href="#">Resources</a>
+                <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-th-large"></i> Categories</a>
+                <a href="#"><i class="fas fa-handshake"></i> Partnerships</a>
+                <a href="#"><i class="fas fa-book"></i> Resources</a>
             </nav>
             <div class="user-actions">
                 <button class="btn btn-outline" id="login-btn">Log In</button>
                 <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+                <div class="user-menu">
+                    <div class="user-avatar" id="user-menu-btn">JS</div>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                        <a href="#" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
+                        <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
+                        <a href="#" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -450,32 +715,32 @@
         <!-- Left Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-section">
-                <h3>Categories</h3>
+                <h3>CATEGORIES</h3>
                 <ul class="sidebar-links">
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Crafts</a></li>
-                    <li><a href="#">Educational Projects</a></li>
-                    <li><a href="#">Visual Arts</a></li>
-                    <li><a href="#">Technology</a></li>
-                    <li><a href="#">Social Initiatives</a></li>
-                    <li><a href="#">Entertainment</a></li>
+                    <li><a href="#" class="active"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="#"><i class="fas fa-paint-brush"></i> Crafts</a></li>
+                    <li><a href="#"><i class="fas fa-graduation-cap"></i> Educational Projects</a></li>
+                    <li><a href="#"><i class="fas fa-palette"></i> Visual Arts</a></li>
+                    <li><a href="#"><i class="fas fa-laptop-code"></i> Technology</a></li>
+                    <li><a href="#"><i class="fas fa-hands-helping"></i> Social Initiatives</a></li>
+                    <li><a href="#"><i class="fas fa-music"></i> Entertainment</a></li>
                 </ul>
             </div>
             <div class="sidebar-section">
-                <h3>Resources</h3>
+                <h3>RESOURCES</h3>
                 <ul class="sidebar-links">
-                    <li><a href="#">Getting Started Guide</a></li>
-                    <li><a href="#">Marketing Tips</a></li>
-                    <li><a href="#">Funding Opportunities</a></li>
-                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="#"><i class="fas fa-play-circle"></i> Getting Started Guide</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Marketing Tips</a></li>
+                    <li><a href="#"><i class="fas fa-dollar-sign"></i> Funding Opportunities</a></li>
+                    <li><a href="#"><i class="fas fa-trophy"></i> Success Stories</a></li>
                 </ul>
             </div>
             <div class="sidebar-section">
-                <h3>Collaboration</h3>
+                <h3>COLLABORATION</h3>
                 <ul class="sidebar-links">
-                    <li><a href="#">Find Partners</a></li>
-                    <li><a href="#">Team Projects</a></li>
-                    <li><a href="#">Mentorship Program</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Find Partners</a></li>
+                    <li><a href="#"><i class="fas fa-project-diagram"></i> Team Projects</a></li>
+                    <li><a href="#"><i class="fas fa-user-graduate"></i> Mentorship Program</a></li>
                 </ul>
             </div>
         </aside>
@@ -484,7 +749,9 @@
         <main class="main-content">
             <div class="content-header">
                 <h1>Featured Projects</h1>
-                <button class="btn btn-primary" id="create-post-btn">Create Post</button>
+                <button class="btn btn-primary" id="create-post-btn">
+                    <i class="fas fa-plus"></i> Create Post
+                </button>
             </div>
 
             <div class="tabs">
@@ -494,89 +761,8 @@
                 <div class="tab">Following</div>
             </div>
 
-            <div class="posts">
-                <!-- Post 1 -->
-                <div class="post">
-                    <div class="post-header">
-                        <div class="user-avatar">JS</div>
-                        <div class="user-info">
-                            <div class="username">Jessica Smith <span class="premium-badge">PREMIUM</span></div>
-                            <div class="post-time">2 hours ago · Business</div>
-                        </div>
-                        <div class="post-category">Business</div>
-                    </div>
-                    <div class="post-title">Eco-Friendly Jewelry Business</div>
-                    <div class="post-content">
-                        <p>I started creating jewelry from recycled materials six months ago. My small business now makes enough to cover my expenses and save for college!</p>
-                        <img src="https://via.placeholder.com/600x300" alt="Jewelry display" class="post-image">
-                    </div>
-                    <div class="post-actions">
-                        <div class="action">
-                            <span>👍</span> 42
-                        </div>
-                        <div class="action">
-                            <span>💬</span> 15
-                        </div>
-                        <div class="action">
-                            <span>🔄</span> Share
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Post 2 -->
-                <div class="post">
-                    <div class="post-header">
-                        <div class="user-avatar">AM</div>
-                        <div class="user-info">
-                            <div class="username">Alex Morgan</div>
-                            <div class="post-time">5 hours ago · Technology</div>
-                        </div>
-                        <div class="post-category">Technology</div>
-                    </div>
-                    <div class="post-title">App for Connecting Local Artists</div>
-                    <div class="post-content">
-                        <p>I'm developing an app that helps local artists find venues to display their work. Looking for a UI/UX designer to collaborate with!</p>
-                    </div>
-                    <div class="post-actions">
-                        <div class="action">
-                            <span>👍</span> 28
-                        </div>
-                        <div class="action">
-                            <span>💬</span> 9
-                        </div>
-                        <div class="action">
-                            <span>🔄</span> Share
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Post 3 -->
-                <div class="post">
-                    <div class="post-header">
-                        <div class="user-avatar">TP</div>
-                        <div class="user-info">
-                            <div class="username">Taylor Perez <span class="premium-badge">PREMIUM</span></div>
-                            <div class="post-time">1 day ago · Crafts</div>
-                        </div>
-                        <div class="post-category">Crafts</div>
-                    </div>
-                    <div class="post-title">Custom Painted Sneakers - My Journey</div>
-                    <div class="post-content">
-                        <p>Started with one pair for myself, now I have orders from three states! Here's what I learned about pricing, marketing, and shipping.</p>
-                        <img src="https://via.placeholder.com/600x300" alt="Painted sneakers" class="post-image">
-                    </div>
-                    <div class="post-actions">
-                        <div class="action">
-                            <span>👍</span> 67
-                        </div>
-                        <div class="action">
-                            <span>💬</span> 22
-                        </div>
-                        <div class="action">
-                            <span>🔄</span> Share
-                        </div>
-                    </div>
-                </div>
+            <div class="posts" id="posts-container">
+                <!-- Posts will be dynamically generated -->
             </div>
         </main>
 
@@ -595,6 +781,10 @@
                 <div class="trending-item">
                     <div class="trending-title">Community Garden Initiative</div>
                     <div class="trending-stats">87 upvotes · 29 comments</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-title">Mental Health App for Students</div>
+                    <div class="trending-stats">76 upvotes · 22 comments</div>
                 </div>
             </div>
 
@@ -617,7 +807,11 @@
             <div class="premium-section">
                 <h3 class="section-title">Go Premium</h3>
                 <p>Get your project featured, advanced analytics, and priority support.</p>
-                <button class="btn btn-primary" style="width: 100%; margin-top: 10px;">Upgrade Now</button>
+                <div class="premium-card">
+                    <h3>InspireMe Premium</h3>
+                    <p>Unlock all features for just $4.99/month</p>
+                    <button class="btn btn-primary" style="background: white; color: #764ba2;">Upgrade Now</button>
+                </div>
             </div>
         </aside>
     </div>
@@ -653,7 +847,7 @@
                     <label for="post-image">Image URL (optional)</label>
                     <input type="text" id="post-image" class="form-control" placeholder="Paste image URL here">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Publish Post</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">Publish Post</button>
             </form>
         </div>
     </div>
@@ -674,9 +868,9 @@
                     <label for="login-password">Password</label>
                     <input type="password" id="login-password" class="form-control" placeholder="Enter your password">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Log In</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">Log In</button>
             </form>
-            <p style="text-align: center; margin-top: 15px;">Don't have an account? <a href="#" id="switch-to-signup">Sign up</a></p>
+            <p style="text-align: center; margin-top: 15px;">Don't have an account? <a href="#" id="switch-to-signup" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">Sign up</a></p>
         </div>
     </div>
 
@@ -704,14 +898,97 @@
                     <label for="signup-interests">Interests (optional)</label>
                     <input type="text" id="signup-interests" class="form-control" placeholder="Business, Arts, Technology, etc.">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">Create Account</button>
             </form>
-            <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" id="switch-to-login">Log in</a></p>
+            <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" id="switch-to-login" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">Log in</a></p>
         </div>
     </div>
 
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+        <span id="notification-text">Operation completed successfully!</span>
+    </div>
+
     <script>
-        // Modal functionality
+        // Sample data for posts
+        const samplePosts = [
+            {
+                id: 1,
+                user: {
+                    name: "Jessica Smith",
+                    initials: "JS",
+                    color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    premium: true
+                },
+                time: "2 hours ago",
+                category: "Business",
+                title: "Eco-Friendly Jewelry Business",
+                content: "I started creating jewelry from recycled materials six months ago. My small business now makes enough to cover my expenses and save for college! I've learned so much about sustainable materials and marketing to environmentally conscious customers.",
+                image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                likes: 42,
+                comments: 15,
+                shares: 7,
+                liked: false
+            },
+            {
+                id: 2,
+                user: {
+                    name: "Alex Morgan",
+                    initials: "AM",
+                    color: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                    premium: false
+                },
+                time: "5 hours ago",
+                category: "Technology",
+                title: "App for Connecting Local Artists",
+                content: "I'm developing an app that helps local artists find venues to display their work. Looking for a UI/UX designer to collaborate with! The app will feature a map of available spaces, artist profiles, and an event calendar.",
+                image: "",
+                likes: 28,
+                comments: 9,
+                shares: 3,
+                liked: false
+            },
+            {
+                id: 3,
+                user: {
+                    name: "Taylor Perez",
+                    initials: "TP",
+                    color: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+                    premium: true
+                },
+                time: "1 day ago",
+                category: "Crafts",
+                title: "Custom Painted Sneakers - My Journey",
+                content: "Started with one pair for myself, now I have orders from three states! Here's what I learned about pricing, marketing, and shipping. The key was finding my niche in pop culture-themed designs.",
+                image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1112&q=80",
+                likes: 67,
+                comments: 22,
+                shares: 14,
+                liked: false
+            },
+            {
+                id: 4,
+                user: {
+                    name: "Jordan Lee",
+                    initials: "JL",
+                    color: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+                    premium: false
+                },
+                time: "2 days ago",
+                category: "Social Initiatives",
+                title: "Community Tutoring Program",
+                content: "Started a free tutoring program for middle school students in my neighborhood. We now have 15 volunteers and help over 50 students weekly with math and science. Looking to expand to more subjects!",
+                image: "https://images.unsplash.com/photo-1584697964358-3e14ca57658b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                likes: 89,
+                comments: 31,
+                shares: 18,
+                liked: false
+            }
+        ];
+
+        // DOM Elements
+        const postsContainer = document.getElementById('posts-container');
         const createPostBtn = document.getElementById('create-post-btn');
         const createPostModal = document.getElementById('create-post-modal');
         const loginBtn = document.getElementById('login-btn');
@@ -721,97 +998,505 @@
         const closeModalBtns = document.querySelectorAll('.close-modal');
         const switchToSignup = document.getElementById('switch-to-signup');
         const switchToLogin = document.getElementById('switch-to-login');
-
-        // Open modals
-        createPostBtn.addEventListener('click', () => {
-            createPostModal.style.display = 'flex';
-        });
-
-        loginBtn.addEventListener('click', () => {
-            loginModal.style.display = 'flex';
-        });
-
-        signupBtn.addEventListener('click', () => {
-            signupModal.style.display = 'flex';
-        });
-
-        // Close modals
-        closeModalBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                createPostModal.style.display = 'none';
-                loginModal.style.display = 'none';
-                signupModal.style.display = 'none';
-            });
-        });
-
-        // Switch between login and signup
-        switchToSignup.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginModal.style.display = 'none';
-            signupModal.style.display = 'flex';
-        });
-
-        switchToLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            signupModal.style.display = 'none';
-            loginModal.style.display = 'flex';
-        });
-
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === createPostModal) {
-                createPostModal.style.display = 'none';
-            }
-            if (e.target === loginModal) {
-                loginModal.style.display = 'none';
-            }
-            if (e.target === signupModal) {
-                signupModal.style.display = 'none';
-            }
-        });
-
-        // Tab functionality
+        const userMenuBtn = document.getElementById('user-menu-btn');
+        const dropdownMenu = document.getElementById('dropdown-menu');
         const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-            });
-        });
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notification-text');
 
-        // Form submissions
-        document.getElementById('post-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Your post has been published!');
-            createPostModal.style.display = 'none';
-            // In a real app, you would send the data to a server here
+        // State
+        let posts = [...samplePosts];
+        let currentUser = null;
+
+        // Initialize the app
+        function init() {
+            renderPosts();
+            setupEventListeners();
+        }
+
+        // Render posts to the DOM
+        function renderPosts() {
+            postsContainer.innerHTML = '';
+            
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-user-avatar" style="background: ${post.user.color}">${post.user.initials}</div>
+                        <div class="user-info">
+                            <div class="username">
+                                ${post.user.name}
+                                ${post.user.premium ? '<span class="premium-badge">PREMIUM</span>' : ''}
+                            </div>
+                            <div class="post-time">${post.time} · ${post.category}</div>
+                        </div>
+                        <div class="post-category">${post.category}</div>
+                    </div>
+                    <div class="post-title">${post.title}</div>
+                    <div class="post-content">
+                        <p>${post.content}</p>
+                        ${post.image ? `<img src="${post.image}" alt="Post image" class="post-image">` : ''}
+                    </div>
+                    <div class="post-actions">
+                        <div class="action like-btn ${post.liked ? 'liked' : ''}" data-id="${post.id}">
+                            <i class="fas fa-heart"></i>
+                            <span class="like-count">${post.likes}</span>
+                        </div>
+                        <div class="action">
+                            <i class="fas fa-comment"></i>
+                            <span>${post.comments}</span>
+                        </div>
+                        <div class="action">
+                            <i class="fas fa-share"></i>
+                            <span>${post.shares}</span>
+                        </div>
+                    </div>
+                `;
+                postsContainer.appendChild(postElement);
+            });
+
+            // Add event listeners to like buttons
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', handleLike);
+            });
+        }
+
+        // Handle like functionality
+        function handleLike(e) {
+            const postId = parseInt(e.currentTarget.getAttribute('data-id'));
+            const post = posts.find(p => p.id === postId);
+            
+            if (post.liked) {
+                // Unlike the post
+                post.liked = false;
+                post.likes--;
+                showNotification("Like removed");
+            } else {
+                // Like the post
+                post.liked = true;
+                post.likes++;
+                showNotification("Post liked!");
+            }
+            
+            renderPosts();
+        }
+
+        // Show notification
+        function showNotification(message, type = "success") {
+            notificationText.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Modal open buttons
+            createPostBtn.addEventListener('click', () => {
+                createPostModal.style.display = 'flex';
+            });
+
+            loginBtn.addEventListener('click', () => {
+                loginModal.style.display = 'flex';
+            });
+
+            signupBtn.addEventListener('click', () => {
+                signupModal.style.display = 'flex';
+            });
+
+            // Close modals
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    createPostModal.style.display = 'none';
+                    loginModal.style.display = 'none';
+                    signupModal.style.display = 'none';
+                });
+            });
+
+            // Switch between login and signup
+            switchToSignup.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.style.display = 'none';
+                signupModal.style.display = 'flex';
+            });
+
+            switchToLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+            });
+
+            // User menu dropdown
+            userMenuBtn.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.user-menu')) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === createPostModal) {
+                    createPostModal.style.display = 'none';
+                }
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+                if (e.target === signupModal) {
+                    signupModal.style.display = 'none';
+                }
+            });
+
+            // Tab functionality
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    // In a real app, this would filter posts
+                    showNotification(`Showing ${tab.textContent} posts`);
+                });
+            });
+
+            // Form submissions
+            document.getElementById('post-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const title = document.getElementById('post-title').value;
+                const category = document.getElementById('post-category').value;
+                const content = document.getElementById('post-content').value;
+                const image = document.getElementById('post-image').value;
+                
+                // Create new post
+                const newPost = {
+                    id: posts.length + 1,
+                    user: {
+                        name: "You",
+                        initials: "ME",
+                        color: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+                        premium: false
+                    },
+                    time: "Just now",
+                    category: category,
+                    title: title,
+                    content: content,
+                    image: image,
+                    likes: 0,
+                    comments: 0,
+                    shares: 0,
+                    liked: false
+                };
+                
+                posts.unshift(newPost);
+                renderPosts();
+                createPostModal.style.display = 'none';
+               document.getElementById('post-form').reset();
+            showNotification("Your post has been published!");
         });
 
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Logged in successfully!');
-            loginModal.style.display = 'none';
-            // In a real app, you would authenticate the user here
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Simulate login
+            if (email && password) {
+                currentUser = { name: "John Doe", email: email };
+                loginModal.style.display = 'none';
+                document.getElementById('login-form').reset();
+                showNotification("Logged in successfully!");
+                
+                // Update UI for logged in user
+                document.querySelector('.user-actions').innerHTML = `
+                    <div class="user-menu">
+                        <div class="user-avatar" id="user-menu-btn">JD</div>
+                        <div class="dropdown-menu" id="dropdown-menu">
+                            <a href="#" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
+                            <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
+                            <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                        </div>
+                    </div>
+                `;
+                
+                // Reattach event listeners for new user menu
+                const newUserMenuBtn = document.getElementById('user-menu-btn');
+                const newDropdownMenu = document.getElementById('dropdown-menu');
+                const newLogoutBtn = document.getElementById('logout-btn');
+                
+                newUserMenuBtn.addEventListener('click', () => {
+                    newDropdownMenu.classList.toggle('show');
+                });
+                
+                newLogoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentUser = null;
+                    showNotification("Logged out successfully!");
+                    location.reload(); // Refresh to show login buttons again
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.user-menu')) {
+                        newDropdownMenu.classList.remove('show');
+                    }
+                });
+            } else {
+                showNotification("Please fill in all fields", "error");
+            }
         });
 
         document.getElementById('signup-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Account created successfully!');
-            signupModal.style.display = 'none';
-            // In a real app, you would create the user account here
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            // Simulate signup
+            if (name && email && password) {
+                currentUser = { name: name, email: email };
+                signupModal.style.display = 'none';
+                document.getElementById('signup-form').reset();
+                showNotification("Account created successfully!");
+                
+                // Update UI for logged in user
+                document.querySelector('.user-actions').innerHTML = `
+                    <div class="user-menu">
+                        <div class="user-avatar" id="user-menu-btn">${name.charAt(0)}</div>
+                        <div class="dropdown-menu" id="dropdown-menu">
+                            <a href="#" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
+                            <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
+                            <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                        </div>
+                    </div>
+                `;
+                
+                // Reattach event listeners for new user menu
+                const newUserMenuBtn = document.getElementById('user-menu-btn');
+                const newDropdownMenu = document.getElementById('dropdown-menu');
+                const newLogoutBtn = document.getElementById('logout-btn');
+                
+                newUserMenuBtn.addEventListener('click', () => {
+                    newDropdownMenu.classList.toggle('show');
+                });
+                
+                newLogoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentUser = null;
+                    showNotification("Logged out successfully!");
+                    location.reload(); // Refresh to show login buttons again
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.user-menu')) {
+                        newDropdownMenu.classList.remove('show');
+                    }
+                });
+            } else {
+                showNotification("Please fill in all required fields", "error");
+            }
         });
 
-        // Like functionality
-        const likeButtons = document.querySelectorAll('.action');
-        likeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Simple like toggle - in a real app, this would update the server
-                if (button.innerHTML.includes('👍')) {
-                    const currentCount = parseInt(button.textContent.match(/\d+/)[0]);
-                    button.innerHTML = `<span>👍</span> ${currentCount + 1}`;
+        // Add search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            if (searchTerm.length > 2) {
+                const filteredPosts = samplePosts.filter(post => 
+                    post.title.toLowerCase().includes(searchTerm) || 
+                    post.content.toLowerCase().includes(searchTerm) ||
+                    post.user.name.toLowerCase().includes(searchTerm)
+                );
+                posts = filteredPosts;
+                renderPosts();
+                showNotification(`Found ${filteredPosts.length} results for "${searchTerm}"`);
+            } else if (searchTerm.length === 0) {
+                posts = [...samplePosts];
+                renderPosts();
+            }
+        });
+
+        // Add category filtering
+        const categoryLinks = document.querySelectorAll('.sidebar-links a');
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active state
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                const category = link.textContent.trim();
+                if (category === 'Business') {
+                    const businessPosts = samplePosts.filter(post => post.category === 'Business');
+                    posts = businessPosts;
+                    renderPosts();
+                    showNotification(`Showing ${businessPosts.length} Business projects`);
+                } else if (category === 'Technology') {
+                    const techPosts = samplePosts.filter(post => post.category === 'Technology');
+                    posts = techPosts;
+                    renderPosts();
+                    showNotification(`Showing ${techPosts.length} Technology projects`);
+                } else if (category === 'Crafts') {
+                    const craftsPosts = samplePosts.filter(post => post.category === 'Crafts');
+                    posts = craftsPosts;
+                    renderPosts();
+                    showNotification(`Showing ${craftsPosts.length} Crafts projects`);
+                } else if (category === 'Social Initiatives') {
+                    const socialPosts = samplePosts.filter(post => post.category === 'Social Initiatives');
+                    posts = socialPosts;
+                    renderPosts();
+                    showNotification(`Showing ${socialPosts.length} Social Initiatives projects`);
+                } else {
+                    // Show all posts
+                    posts = [...samplePosts];
+                    renderPosts();
+                    showNotification("Showing all projects");
                 }
             });
         });
+
+        // Add comment functionality
+        function addCommentFunctionality() {
+            document.querySelectorAll('.action').forEach(action => {
+                if (action.innerHTML.includes('fa-comment')) {
+                    action.addEventListener('click', function() {
+                        const postElement = this.closest('.post');
+                        const postId = parseInt(postElement.querySelector('.like-btn').getAttribute('data-id'));
+                        const post = posts.find(p => p.id === postId);
+                        
+                        // Create comment modal
+                        const commentModal = document.createElement('div');
+                        commentModal.className = 'modal';
+                        commentModal.style.display = 'flex';
+                        commentModal.innerHTML = `
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2>Comments</h2>
+                                    <button class="close-modal">&times;</button>
+                                </div>
+                                <div class="comments-section" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
+                                    <div class="comment" style="padding: 10px; border-bottom: 1px solid var(--border-color);">
+                                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                            <div class="user-avatar" style="width: 30px; height: 30px; margin-right: 10px;">AB</div>
+                                            <strong>Alex Brown</strong>
+                                            <span style="margin-left: auto; font-size: 12px; color: #657786;">2 hours ago</span>
+                                        </div>
+                                        <p>This is amazing! How did you get started with this project?</p>
+                                    </div>
+                                    <div class="comment" style="padding: 10px; border-bottom: 1px solid var(--border-color);">
+                                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                            <div class="user-avatar" style="width: 30px; height: 30px; margin-right: 10px;">CD</div>
+                                            <strong>Casey Davis</strong>
+                                            <span style="margin-left: auto; font-size: 12px; color: #657786;">1 hour ago</span>
+                                        </div>
+                                        <p>I'd love to collaborate on something similar in my community!</p>
+                                    </div>
+                                </div>
+                                <form class="comment-form">
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Add a comment..." style="min-height: 80px;"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="width: 100%;">Post Comment</button>
+                                </form>
+                            </div>
+                        `;
+                        
+                        document.body.appendChild(commentModal);
+                        
+                        // Close modal functionality
+                        commentModal.querySelector('.close-modal').addEventListener('click', () => {
+                            document.body.removeChild(commentModal);
+                        });
+                        
+                        commentModal.addEventListener('click', (e) => {
+                            if (e.target === commentModal) {
+                                document.body.removeChild(commentModal);
+                            }
+                        });
+                        
+                        // Comment form submission
+                        commentModal.querySelector('.comment-form').addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            const commentText = commentModal.querySelector('textarea').value;
+                            if (commentText.trim()) {
+                                post.comments++;
+                                renderPosts();
+                                document.body.removeChild(commentModal);
+                                showNotification("Comment added successfully!");
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        // Add share functionality
+        function addShareFunctionality() {
+            document.querySelectorAll('.action').forEach(action => {
+                if (action.innerHTML.includes('fa-share')) {
+                    action.addEventListener('click', function() {
+                        const postElement = this.closest('.post');
+                        const postId = parseInt(postElement.querySelector('.like-btn').getAttribute('data-id'));
+                        const post = posts.find(p => p.id === postId);
+                        
+                        post.shares++;
+                        renderPosts();
+                        showNotification("Post shared! (Simulated action)");
+                    });
+                }
+            });
+        }
+
+        // Initialize comment and share functionality after rendering posts
+        const originalRenderPosts = renderPosts;
+        renderPosts = function() {
+            originalRenderPosts();
+            addCommentFunctionality();
+            addShareFunctionality();
+        };
+
+        // Add navigation functionality
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active state
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                const page = link.textContent.trim();
+                if (page === 'Home') {
+                    showNotification("Welcome to InspireMe Home!");
+                } else if (page === 'Categories') {
+                    showNotification("Browse projects by category");
+                } else if (page === 'Partnerships') {
+                    showNotification("Find collaboration opportunities");
+                } else if (page === 'Resources') {
+                    showNotification("Access learning materials and guides");
+                }
+            });
+        });
+
+        // Add premium upgrade functionality
+        document.querySelector('.premium-card .btn').addEventListener('click', function() {
+            showNotification("Premium upgrade modal would open here!");
+        });
+
+        // Initialize the application
+        init();
     </script>
 </body>
 </html>
