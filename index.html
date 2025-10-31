@@ -16,6 +16,7 @@
             --hover-color: #f5f8fa;
             --success-color: #17bf63;
             --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --header-height: 64px;
         }
 
         * {
@@ -29,12 +30,14 @@
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.5;
+            overflow-x: hidden;
         }
 
         .container {
             display: flex;
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
+            min-height: calc(100vh - var(--header-height));
         }
 
         /* Header Styles */
@@ -45,6 +48,7 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            height: var(--header-height);
         }
 
         .header-content {
@@ -52,6 +56,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 20px;
+            height: 100%;
         }
 
         .logo {
@@ -217,16 +222,26 @@
             margin: 8px 0;
         }
 
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
         /* Main Content Styles */
         .sidebar {
             width: 260px;
             padding: 20px 15px;
             background-color: var(--sidebar-color);
             border-right: 1px solid var(--border-color);
-            height: calc(100vh - 64px);
+            height: calc(100vh - var(--header-height));
             position: sticky;
-            top: 64px;
+            top: var(--header-height);
             overflow-y: auto;
+            transition: transform 0.3s ease;
         }
 
         .sidebar-section {
@@ -293,6 +308,7 @@
             display: flex;
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 20px;
+            overflow-x: auto;
         }
 
         .tab {
@@ -301,6 +317,7 @@
             font-weight: 500;
             position: relative;
             transition: all 0.2s;
+            white-space: nowrap;
         }
 
         .tab:hover {
@@ -443,13 +460,13 @@
             padding: 25px 20px;
             background-color: var(--sidebar-color);
             border-left: 1px solid var(--border-color);
-            height: calc(100vh - 64px);
+            height: calc(100vh - var(--header-height));
             position: sticky;
-            top: 64px;
+            top: var(--header-height);
             overflow-y: auto;
         }
 
-        .trending-section, .resources-section, .premium-section {
+        .trending-section, .resources-section, .premium-section, .collaboration-section {
             margin-bottom: 30px;
             background: white;
             border-radius: 12px;
@@ -465,25 +482,25 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .trending-item, .resource-item {
+        .trending-item, .resource-item, .collaboration-item {
             margin-bottom: 16px;
             padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .trending-item:last-child, .resource-item:last-child {
+        .trending-item:last-child, .resource-item:last-child, .collaboration-item:last-child {
             border-bottom: none;
             margin-bottom: 0;
             padding-bottom: 0;
         }
 
-        .trending-title, .resource-title {
+        .trending-title, .resource-title, .collaboration-title {
             font-weight: 600;
             margin-bottom: 6px;
             line-height: 1.3;
         }
 
-        .trending-stats, .resource-description {
+        .trending-stats, .resource-description, .collaboration-description {
             font-size: 14px;
             color: #657786;
         }
@@ -611,37 +628,75 @@
             margin-left: 5px;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1100px) {
-            .right-sidebar {
-                display: none;
-            }
+        /* Profile Page Styles */
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: static;
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
-            }
-            
-            .search-bar {
-                display: none;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .main-content {
-                padding: 15px;
-            }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .profile-details h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Collaboration Styles */
+        .collaboration-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background-color: var(--hover-color);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #657786;
         }
 
         /* Notification */
@@ -672,12 +727,153 @@
         .notification.error {
             border-left: 4px solid #e0245e;
         }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 2000;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.show {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .right-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                z-index: 1500;
+                background: white;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-bar {
+                margin: 0 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 12px 15px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .content-header h1 {
+                font-size: 22px;
+            }
+
+            .profile-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-stats {
+                justify-content: center;
+            }
+
+            .post-actions {
+                gap: 15px;
+            }
+
+            .action {
+                padding: 6px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .user-actions .btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .logo i {
+                font-size: 24px;
+            }
+
+            .post {
+                padding: 15px;
+            }
+
+            .post-title {
+                font-size: 18px;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+
+            .tab {
+                padding: 10px 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
         <div class="header-content">
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
             <a href="#" class="logo">
                 <i class="fas fa-lightbulb"></i>
                 InspireMe
@@ -710,10 +906,28 @@
         </div>
     </header>
 
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-header">
+            <h2>Menu</h2>
+            <button class="mobile-nav-close" id="mobile-nav-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-links">
+            <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="#"><i class="fas fa-th-large"></i> Categories</a>
+            <a href="#"><i class="fas fa-handshake"></i> Partnerships</a>
+            <a href="#"><i class="fas fa-book"></i> Resources</a>
+            <a href="#"><i class="fas fa-user"></i> Profile</a>
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <div class="container">
         <!-- Left Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-section">
                 <h3>CATEGORIES</h3>
                 <ul class="sidebar-links">
@@ -759,6 +973,9 @@
                 <div class="tab">Latest</div>
                 <div class="tab">Trending</div>
                 <div class="tab">Following</div>
+                <div class="tab">Business</div>
+                <div class="tab">Technology</div>
+                <div class="tab">Arts</div>
             </div>
 
             <div class="posts" id="posts-container">
@@ -801,6 +1018,26 @@
                 <div class="resource-item">
                     <div class="resource-title">Finding Mentors</div>
                     <div class="resource-description">Connect with experienced entrepreneurs</div>
+                </div>
+            </div>
+
+            <div class="collaboration-section">
+                <h3 class="section-title">Collaboration Opportunities</h3>
+                <div class="collaboration-item">
+                    <div class="collaboration-title">Web Developer Needed</div>
+                    <div class="collaboration-description">Looking for a frontend developer for an educational platform</div>
+                    <div class="collaboration-tags">
+                        <span class="tag">Technology</span>
+                        <span class="tag">Education</span>
+                    </div>
+                </div>
+                <div class="collaboration-item">
+                    <div class="collaboration-title">Graphic Designer Wanted</div>
+                    <div class="collaboration-description">Seeking a designer for a sustainable brand identity</div>
+                    <div class="collaboration-tags">
+                        <span class="tag">Design</span>
+                        <span class="tag">Business</span>
+                    </div>
                 </div>
             </div>
 
@@ -904,6 +1141,51 @@
         </div>
     </div>
 
+    <!-- Profile Modal -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Profile</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="profile-header">
+                <div class="profile-info">
+                    <div class="profile-avatar">JD</div>
+                    <div class="profile-details">
+                        <h1>John Doe</h1>
+                        <p>Teen Entrepreneur | Business & Technology</p>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">Posts</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">187</div>
+                                <div class="stat-label">Followers</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">56</div>
+                                <div class="stat-label">Following</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 20px;">
+                <h3 style="margin-bottom: 15px;">About Me</h3>
+                <p>Passionate about technology and entrepreneurship. Currently working on a mobile app that connects local artists with venues. Always looking for collaboration opportunities!</p>
+                
+                <h3 style="margin: 20px 0 15px;">Skills & Interests</h3>
+                <div class="collaboration-tags">
+                    <span class="tag">Web Development</span>
+                    <span class="tag">UI/UX Design</span>
+                    <span class="tag">Business Strategy</span>
+                    <span class="tag">Marketing</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Notification -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
@@ -984,6 +1266,24 @@
                 comments: 31,
                 shares: 18,
                 liked: false
+            },
+            {
+                id: 5,
+                user: {
+                    name: "Riley Kim",
+                    initials: "RK",
+                    color: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+                    premium: true
+                },
+                time: "3 days ago",
+                category: "Educational Projects",
+                title: "Online Coding Workshops for Teens",
+                content: "I've been hosting free coding workshops for teenagers in my community. We've taught over 100 students the basics of HTML, CSS, and JavaScript. Looking for volunteers to help expand the program!",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                likes: 112,
+                comments: 45,
+                shares: 23,
+                liked: false
             }
         ];
 
@@ -995,6 +1295,7 @@
         const loginModal = document.getElementById('login-modal');
         const signupBtn = document.getElementById('signup-btn');
         const signupModal = document.getElementById('signup-modal');
+        const profileModal = document.getElementById('profile-modal');
         const closeModalBtns = document.querySelectorAll('.close-modal');
         const switchToSignup = document.getElementById('switch-to-signup');
         const switchToLogin = document.getElementById('switch-to-login');
@@ -1003,10 +1304,15 @@
         const tabs = document.querySelectorAll('.tab');
         const notification = document.getElementById('notification');
         const notificationText = document.getElementById('notification-text');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileNavClose = document.getElementById('mobile-nav-close');
+        const sidebar = document.getElementById('sidebar');
 
         // State
         let posts = [...samplePosts];
         let currentUser = null;
+        let currentPage = 'home';
 
         // Initialize the app
         function init() {
@@ -1043,11 +1349,11 @@
                             <i class="fas fa-heart"></i>
                             <span class="like-count">${post.likes}</span>
                         </div>
-                        <div class="action">
+                        <div class="action comment-btn" data-id="${post.id}">
                             <i class="fas fa-comment"></i>
                             <span>${post.comments}</span>
                         </div>
-                        <div class="action">
+                        <div class="action share-btn" data-id="${post.id}">
                             <i class="fas fa-share"></i>
                             <span>${post.shares}</span>
                         </div>
@@ -1056,14 +1362,28 @@
                 postsContainer.appendChild(postElement);
             });
 
-            // Add event listeners to like buttons
+            // Add event listeners to buttons
             document.querySelectorAll('.like-btn').forEach(btn => {
                 btn.addEventListener('click', handleLike);
+            });
+            
+            document.querySelectorAll('.comment-btn').forEach(btn => {
+                btn.addEventListener('click', handleComment);
+            });
+            
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                btn.addEventListener('click', handleShare);
             });
         }
 
         // Handle like functionality
         function handleLike(e) {
+            if (!currentUser) {
+                showNotification("Please log in to like posts", "error");
+                loginModal.style.display = 'flex';
+                return;
+            }
+            
             const postId = parseInt(e.currentTarget.getAttribute('data-id'));
             const post = posts.find(p => p.id === postId);
             
@@ -1082,6 +1402,96 @@
             renderPosts();
         }
 
+        // Handle comment functionality
+        function handleComment(e) {
+            if (!currentUser) {
+                showNotification("Please log in to comment", "error");
+                loginModal.style.display = 'flex';
+                return;
+            }
+            
+            const postId = parseInt(e.currentTarget.getAttribute('data-id'));
+            const post = posts.find(p => p.id === postId);
+            
+            // Create comment modal
+            const commentModal = document.createElement('div');
+            commentModal.className = 'modal';
+            commentModal.style.display = 'flex';
+            commentModal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Comments</h2>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="comments-section" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
+                        <div class="comment" style="padding: 10px; border-bottom: 1px solid var(--border-color);">
+                            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                <div class="user-avatar" style="width: 30px; height: 30px; margin-right: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">AB</div>
+                                <strong>Alex Brown</strong>
+                                <span style="margin-left: auto; font-size: 12px; color: #657786;">2 hours ago</span>
+                            </div>
+                            <p>This is amazing! How did you get started with this project?</p>
+                        </div>
+                        <div class="comment" style="padding: 10px; border-bottom: 1px solid var(--border-color);">
+                            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                <div class="user-avatar" style="width: 30px; height: 30px; margin-right: 10px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">CD</div>
+                                <strong>Casey Davis</strong>
+                                <span style="margin-left: auto; font-size: 12px; color: #657786;">1 hour ago</span>
+                            </div>
+                            <p>I'd love to collaborate on something similar in my community!</p>
+                        </div>
+                    </div>
+                    <form class="comment-form">
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Add a comment..." style="min-height: 80px;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Post Comment</button>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(commentModal);
+            
+            // Close modal functionality
+            commentModal.querySelector('.close-modal').addEventListener('click', () => {
+                document.body.removeChild(commentModal);
+            });
+            
+            commentModal.addEventListener('click', (e) => {
+                if (e.target === commentModal) {
+                    document.body.removeChild(commentModal);
+                }
+            });
+            
+            // Comment form submission
+            commentModal.querySelector('.comment-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const commentText = commentModal.querySelector('textarea').value;
+                if (commentText.trim()) {
+                    post.comments++;
+                    renderPosts();
+                    document.body.removeChild(commentModal);
+                    showNotification("Comment added successfully!");
+                }
+            });
+        }
+
+        // Handle share functionality
+        function handleShare(e) {
+            if (!currentUser) {
+                showNotification("Please log in to share posts", "error");
+                loginModal.style.display = 'flex';
+                return;
+            }
+            
+            const postId = parseInt(e.currentTarget.getAttribute('data-id'));
+            const post = posts.find(p => p.id === postId);
+            
+            post.shares++;
+            renderPosts();
+            showNotification("Post shared!");
+        }
+
         // Show notification
         function showNotification(message, type = "success") {
             notificationText.textContent = message;
@@ -1096,6 +1506,11 @@
         function setupEventListeners() {
             // Modal open buttons
             createPostBtn.addEventListener('click', () => {
+                if (!currentUser) {
+                    showNotification("Please log in to create posts", "error");
+                    loginModal.style.display = 'flex';
+                    return;
+                }
                 createPostModal.style.display = 'flex';
             });
 
@@ -1113,6 +1528,7 @@
                     createPostModal.style.display = 'none';
                     loginModal.style.display = 'none';
                     signupModal.style.display = 'none';
+                    profileModal.style.display = 'none';
                 });
             });
 
@@ -1152,6 +1568,9 @@
                 if (e.target === signupModal) {
                     signupModal.style.display = 'none';
                 }
+                if (e.target === profileModal) {
+                    profileModal.style.display = 'none';
+                }
             });
 
             // Tab functionality
@@ -1159,10 +1578,41 @@
                 tab.addEventListener('click', () => {
                     tabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
-                    // In a real app, this would filter posts
-                    showNotification(`Showing ${tab.textContent} posts`);
+                    
+                    const tabName = tab.textContent;
+                    let filteredPosts = [...samplePosts];
+                    
+                    if (tabName === 'Business') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Business');
+                    } else if (tabName === 'Technology') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Technology');
+                    } else if (tabName === 'Arts') {
+                        filteredPosts = samplePosts.filter(post => 
+                            post.category === 'Crafts' || post.category === 'Visual Arts'
+                        );
+                    }
+                    
+                    posts = filteredPosts;
+                    renderPosts();
+                    showNotification(`Showing ${tabName} posts`);
                 });
             });
+
+            // Mobile menu functionality
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileNav.classList.add('show');
+            });
+
+            mobileNavClose.addEventListener('click', () => {
+                mobileNav.classList.remove('show');
+            });
+
+            // Sidebar toggle for mobile
+            if (window.innerWidth <= 900) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('show');
+                });
+            }
 
             // Form submissions
             document.getElementById('post-form').addEventListener('submit', (e) => {
@@ -1195,305 +1645,240 @@
                 posts.unshift(newPost);
                 renderPosts();
                 createPostModal.style.display = 'none';
-               document.getElementById('post-form').reset();
-            showNotification("Your post has been published!");
-        });
+                document.getElementById('post-form').reset();
+                showNotification("Your post has been published!");
+            });
 
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            // Simulate login
-            if (email && password) {
-                currentUser = { name: "John Doe", email: email };
-                loginModal.style.display = 'none';
-                document.getElementById('login-form').reset();
-                showNotification("Logged in successfully!");
-                
-                // Update UI for logged in user
-                document.querySelector('.user-actions').innerHTML = `
-                    <div class="user-menu">
-                        <div class="user-avatar" id="user-menu-btn">JD</div>
-                        <div class="dropdown-menu" id="dropdown-menu">
-                            <a href="#" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
-                            <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
-                            <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
-                            <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-                        </div>
-                    </div>
-                `;
-                
-                // Reattach event listeners for new user menu
-                const newUserMenuBtn = document.getElementById('user-menu-btn');
-                const newDropdownMenu = document.getElementById('dropdown-menu');
-                const newLogoutBtn = document.getElementById('logout-btn');
-                
-                newUserMenuBtn.addEventListener('click', () => {
-                    newDropdownMenu.classList.toggle('show');
-                });
-                
-                newLogoutBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    currentUser = null;
-                    showNotification("Logged out successfully!");
-                    location.reload(); // Refresh to show login buttons again
-                });
-                
-                // Close dropdown when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('.user-menu')) {
-                        newDropdownMenu.classList.remove('show');
-                    }
-                });
-            } else {
-                showNotification("Please fill in all fields", "error");
-            }
-        });
-
-        document.getElementById('signup-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            
-            // Simulate signup
-            if (name && email && password) {
-                currentUser = { name: name, email: email };
-                signupModal.style.display = 'none';
-                document.getElementById('signup-form').reset();
-                showNotification("Account created successfully!");
-                
-                // Update UI for logged in user
-                document.querySelector('.user-actions').innerHTML = `
-                    <div class="user-menu">
-                        <div class="user-avatar" id="user-menu-btn">${name.charAt(0)}</div>
-                        <div class="dropdown-menu" id="dropdown-menu">
-                            <a href="#" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
-                            <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
-                            <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
-                            <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-                        </div>
-                    </div>
-                `;
-                
-                // Reattach event listeners for new user menu
-                const newUserMenuBtn = document.getElementById('user-menu-btn');
-                const newDropdownMenu = document.getElementById('dropdown-menu');
-                const newLogoutBtn = document.getElementById('logout-btn');
-                
-                newUserMenuBtn.addEventListener('click', () => {
-                    newDropdownMenu.classList.toggle('show');
-                });
-                
-                newLogoutBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    currentUser = null;
-                    showNotification("Logged out successfully!");
-                    location.reload(); // Refresh to show login buttons again
-                });
-                
-                // Close dropdown when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('.user-menu')) {
-                        newDropdownMenu.classList.remove('show');
-                    }
-                });
-            } else {
-                showNotification("Please fill in all required fields", "error");
-            }
-        });
-
-        // Add search functionality
-        const searchInput = document.querySelector('.search-bar input');
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            if (searchTerm.length > 2) {
-                const filteredPosts = samplePosts.filter(post => 
-                    post.title.toLowerCase().includes(searchTerm) || 
-                    post.content.toLowerCase().includes(searchTerm) ||
-                    post.user.name.toLowerCase().includes(searchTerm)
-                );
-                posts = filteredPosts;
-                renderPosts();
-                showNotification(`Found ${filteredPosts.length} results for "${searchTerm}"`);
-            } else if (searchTerm.length === 0) {
-                posts = [...samplePosts];
-                renderPosts();
-            }
-        });
-
-        // Add category filtering
-        const categoryLinks = document.querySelectorAll('.sidebar-links a');
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
+            document.getElementById('login-form').addEventListener('submit', (e) => {
                 e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
                 
-                // Update active state
-                categoryLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                
-                const category = link.textContent.trim();
-                if (category === 'Business') {
-                    const businessPosts = samplePosts.filter(post => post.category === 'Business');
-                    posts = businessPosts;
-                    renderPosts();
-                    showNotification(`Showing ${businessPosts.length} Business projects`);
-                } else if (category === 'Technology') {
-                    const techPosts = samplePosts.filter(post => post.category === 'Technology');
-                    posts = techPosts;
-                    renderPosts();
-                    showNotification(`Showing ${techPosts.length} Technology projects`);
-                } else if (category === 'Crafts') {
-                    const craftsPosts = samplePosts.filter(post => post.category === 'Crafts');
-                    posts = craftsPosts;
-                    renderPosts();
-                    showNotification(`Showing ${craftsPosts.length} Crafts projects`);
-                } else if (category === 'Social Initiatives') {
-                    const socialPosts = samplePosts.filter(post => post.category === 'Social Initiatives');
-                    posts = socialPosts;
-                    renderPosts();
-                    showNotification(`Showing ${socialPosts.length} Social Initiatives projects`);
+                // Simulate login
+                if (email && password) {
+                    currentUser = { name: "John Doe", email: email };
+                    loginModal.style.display = 'none';
+                    document.getElementById('login-form').reset();
+                    showNotification("Logged in successfully!");
+                    
+                    // Update UI for logged in user
+                    document.querySelector('.user-actions').innerHTML = `
+                        <div class="user-menu">
+                            <div class="user-avatar" id="user-menu-btn">JD</div>
+                            <div class="dropdown-menu" id="dropdown-menu">
+                                <a href="#" class="dropdown-item" id="profile-btn"><i class="fas fa-user"></i> My Profile</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
+                                <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Reattach event listeners for new user menu
+                    const newUserMenuBtn = document.getElementById('user-menu-btn');
+                    const newDropdownMenu = document.getElementById('dropdown-menu');
+                    const newLogoutBtn = document.getElementById('logout-btn');
+                    const profileBtn = document.getElementById('profile-btn');
+                    
+                    newUserMenuBtn.addEventListener('click', () => {
+                        newDropdownMenu.classList.toggle('show');
+                    });
+                    
+                    newLogoutBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        currentUser = null;
+                        showNotification("Logged out successfully!");
+                        location.reload();
+                    });
+                    
+                    profileBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        profileModal.style.display = 'flex';
+                        newDropdownMenu.classList.remove('show');
+                    });
+                    
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!e.target.closest('.user-menu')) {
+                            newDropdownMenu.classList.remove('show');
+                        }
+                    });
                 } else {
-                    // Show all posts
+                    showNotification("Please fill in all fields", "error");
+                }
+            });
+
+            document.getElementById('signup-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                
+                // Simulate signup
+                if (name && email && password) {
+                    currentUser = { name: name, email: email };
+                    signupModal.style.display = 'none';
+                    document.getElementById('signup-form').reset();
+                    showNotification("Account created successfully!");
+                    
+                    // Update UI for logged in user
+                    document.querySelector('.user-actions').innerHTML = `
+                        <div class="user-menu">
+                            <div class="user-avatar" id="user-menu-btn">${name.charAt(0)}</div>
+                            <div class="dropdown-menu" id="dropdown-menu">
+                                <a href="#" class="dropdown-item" id="profile-btn"><i class="fas fa-user"></i> My Profile</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
+                                <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
+                                <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Reattach event listeners for new user menu
+                    const newUserMenuBtn = document.getElementById('user-menu-btn');
+                    const newDropdownMenu = document.getElementById('dropdown-menu');
+                    const newLogoutBtn = document.getElementById('logout-btn');
+                    const profileBtn = document.getElementById('profile-btn');
+                    
+                    newUserMenuBtn.addEventListener('click', () => {
+                        newDropdownMenu.classList.toggle('show');
+                    });
+                    
+                    newLogoutBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        currentUser = null;
+                        showNotification("Logged out successfully!");
+                        location.reload();
+                    });
+                    
+                    profileBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        profileModal.style.display = 'flex';
+                        newDropdownMenu.classList.remove('show');
+                    });
+                    
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!e.target.closest('.user-menu')) {
+                            newDropdownMenu.classList.remove('show');
+                        }
+                    });
+                } else {
+                    showNotification("Please fill in all required fields", "error");
+                }
+            });
+
+            // Add search functionality
+            const searchInput = document.querySelector('.search-bar input');
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                if (searchTerm.length > 2) {
+                    const filteredPosts = samplePosts.filter(post => 
+                        post.title.toLowerCase().includes(searchTerm) || 
+                        post.content.toLowerCase().includes(searchTerm) ||
+                        post.user.name.toLowerCase().includes(searchTerm) ||
+                        post.category.toLowerCase().includes(searchTerm)
+                    );
+                    posts = filteredPosts;
+                    renderPosts();
+                    if (filteredPosts.length > 0) {
+                        showNotification(`Found ${filteredPosts.length} results for "${searchTerm}"`);
+                    } else {
+                        showNotification(`No results found for "${searchTerm}"`, "error");
+                    }
+                } else if (searchTerm.length === 0) {
                     posts = [...samplePosts];
                     renderPosts();
-                    showNotification("Showing all projects");
                 }
             });
-        });
 
-        // Add comment functionality
-        function addCommentFunctionality() {
-            document.querySelectorAll('.action').forEach(action => {
-                if (action.innerHTML.includes('fa-comment')) {
-                    action.addEventListener('click', function() {
-                        const postElement = this.closest('.post');
-                        const postId = parseInt(postElement.querySelector('.like-btn').getAttribute('data-id'));
-                        const post = posts.find(p => p.id === postId);
-                        
-                        // Create comment modal
-                        const commentModal = document.createElement('div');
-                        commentModal.className = 'modal';
-                        commentModal.style.display = 'flex';
-                        commentModal.innerHTML = `
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h2>Comments</h2>
-                                    <button class="close-modal">&times;</button>
-                                </div>
-                                <div class="comments-section" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
-                                    <div class="comment" style="padding: 10px; border-bottom: 1px solid var(--border-color);">
-                                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                                            <div class="user-avatar" style="width: 30px; height: 30px; margin-right: 10px;">AB</div>
-                                            <strong>Alex Brown</strong>
-                                            <span style="margin-left: auto; font-size: 12px; color: #657786;">2 hours ago</span>
-                                        </div>
-                                        <p>This is amazing! How did you get started with this project?</p>
-                                    </div>
-                                    <div class="comment" style="padding: 10px; border-bottom: 1px solid var(--border-color);">
-                                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                                            <div class="user-avatar" style="width: 30px; height: 30px; margin-right: 10px;">CD</div>
-                                            <strong>Casey Davis</strong>
-                                            <span style="margin-left: auto; font-size: 12px; color: #657786;">1 hour ago</span>
-                                        </div>
-                                        <p>I'd love to collaborate on something similar in my community!</p>
-                                    </div>
-                                </div>
-                                <form class="comment-form">
-                                    <div class="form-group">
-                                        <textarea class="form-control" placeholder="Add a comment..." style="min-height: 80px;"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary" style="width: 100%;">Post Comment</button>
-                                </form>
-                            </div>
-                        `;
-                        
-                        document.body.appendChild(commentModal);
-                        
-                        // Close modal functionality
-                        commentModal.querySelector('.close-modal').addEventListener('click', () => {
-                            document.body.removeChild(commentModal);
-                        });
-                        
-                        commentModal.addEventListener('click', (e) => {
-                            if (e.target === commentModal) {
-                                document.body.removeChild(commentModal);
-                            }
-                        });
-                        
-                        // Comment form submission
-                        commentModal.querySelector('.comment-form').addEventListener('submit', (e) => {
-                            e.preventDefault();
-                            const commentText = commentModal.querySelector('textarea').value;
-                            if (commentText.trim()) {
-                                post.comments++;
-                                renderPosts();
-                                document.body.removeChild(commentModal);
-                                showNotification("Comment added successfully!");
-                            }
-                        });
-                    });
-                }
+            // Add category filtering from sidebar
+            const categoryLinks = document.querySelectorAll('.sidebar-links a');
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Update active state
+                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    const category = link.textContent.trim();
+                    let filteredPosts = [...samplePosts];
+                    
+                    if (category === 'Business') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Business');
+                    } else if (category === 'Technology') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Technology');
+                    } else if (category === 'Crafts') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Crafts');
+                    } else if (category === 'Educational Projects') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Educational Projects');
+                    } else if (category === 'Visual Arts') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Visual Arts');
+                    } else if (category === 'Social Initiatives') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Social Initiatives');
+                    } else if (category === 'Entertainment') {
+                        filteredPosts = samplePosts.filter(post => post.category === 'Entertainment');
+                    }
+                    
+                    posts = filteredPosts;
+                    renderPosts();
+                    showNotification(`Showing ${category} projects`);
+                    
+                    // Close sidebar on mobile after selection
+                    if (window.innerWidth <= 900) {
+                        sidebar.classList.remove('show');
+                    }
+                });
             });
-        }
 
-        // Add share functionality
-        function addShareFunctionality() {
-            document.querySelectorAll('.action').forEach(action => {
-                if (action.innerHTML.includes('fa-share')) {
-                    action.addEventListener('click', function() {
-                        const postElement = this.closest('.post');
-                        const postId = parseInt(postElement.querySelector('.like-btn').getAttribute('data-id'));
-                        const post = posts.find(p => p.id === postId);
-                        
-                        post.shares++;
+            // Add navigation functionality
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Update active state
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    const page = link.textContent.trim();
+                    if (page === 'Home') {
+                        posts = [...samplePosts];
                         renderPosts();
-                        showNotification("Post shared! (Simulated action)");
-                    });
+                        showNotification("Welcome to InspireMe Home!");
+                    } else if (page === 'Categories') {
+                        showNotification("Browse projects by category");
+                    } else if (page === 'Partnerships') {
+                        showNotification("Find collaboration opportunities");
+                    } else if (page === 'Resources') {
+                        showNotification("Access learning materials and guides");
+                    }
+                });
+            });
+
+            // Add premium upgrade functionality
+            document.querySelector('.premium-card .btn').addEventListener('click', function() {
+                if (!currentUser) {
+                    showNotification("Please log in to upgrade to Premium", "error");
+                    loginModal.style.display = 'flex';
+                    return;
+                }
+                showNotification("Premium upgrade modal would open here!");
+            });
+
+            // Handle window resize for responsive behavior
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 900) {
+                    sidebar.classList.remove('show');
+                    mobileNav.classList.remove('show');
                 }
             });
         }
-
-        // Initialize comment and share functionality after rendering posts
-        const originalRenderPosts = renderPosts;
-        renderPosts = function() {
-            originalRenderPosts();
-            addCommentFunctionality();
-            addShareFunctionality();
-        };
-
-        // Add navigation functionality
-        const navLinks = document.querySelectorAll('.nav-links a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Update active state
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                
-                const page = link.textContent.trim();
-                if (page === 'Home') {
-                    showNotification("Welcome to InspireMe Home!");
-                } else if (page === 'Categories') {
-                    showNotification("Browse projects by category");
-                } else if (page === 'Partnerships') {
-                    showNotification("Find collaboration opportunities");
-                } else if (page === 'Resources') {
-                    showNotification("Access learning materials and guides");
-                }
-            });
-        });
-
-        // Add premium upgrade functionality
-        document.querySelector('.premium-card .btn').addEventListener('click', function() {
-            showNotification("Premium upgrade modal would open here!");
-        });
 
         // Initialize the application
         init();
