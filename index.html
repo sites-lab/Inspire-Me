@@ -179,6 +179,13 @@
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.2s;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .user-avatar:hover {
@@ -210,6 +217,11 @@
             text-decoration: none;
             color: var(--text-color);
             transition: background 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
         }
 
         .dropdown-item:hover {
@@ -376,6 +388,13 @@
             color: white;
             font-weight: bold;
             font-size: 18px;
+            overflow: hidden;
+        }
+
+        .post-user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .user-info {
@@ -617,6 +636,37 @@
             resize: vertical;
         }
 
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 12px 15px;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--primary-color);
+            background-color: var(--hover-color);
+        }
+
         /* Premium Badge */
         .premium-badge {
             background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
@@ -656,6 +706,35 @@
             font-size: 40px;
             font-weight: bold;
             color: #667eea;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .profile-avatar:hover .profile-avatar-edit {
+            opacity: 1;
         }
 
         .profile-details h1 {
@@ -892,14 +971,16 @@
                 <button class="btn btn-outline" id="login-btn">Log In</button>
                 <button class="btn btn-primary" id="signup-btn">Sign Up</button>
                 <div class="user-menu">
-                    <div class="user-avatar" id="user-menu-btn">JS</div>
+                    <div class="user-avatar" id="user-menu-btn">
+                        <span id="avatar-text">JS</span>
+                    </div>
                     <div class="dropdown-menu" id="dropdown-menu">
-                        <a href="#" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>
-                        <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
-                        <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                        <button class="dropdown-item" id="profile-btn"><i class="fas fa-user"></i> My Profile</button>
+                        <button class="dropdown-item" id="saved-posts-btn"><i class="fas fa-bookmark"></i> Saved Posts</button>
+                        <button class="dropdown-item" id="settings-btn"><i class="fas fa-cog"></i> Settings</button>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
-                        <a href="#" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                        <button class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</button>
+                        <button class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</button>
                     </div>
                 </div>
             </div>
@@ -919,7 +1000,7 @@
             <a href="#"><i class="fas fa-th-large"></i> Categories</a>
             <a href="#"><i class="fas fa-handshake"></i> Partnerships</a>
             <a href="#"><i class="fas fa-book"></i> Resources</a>
-            <a href="#"><i class="fas fa-user"></i> Profile</a>
+            <a href="#" id="mobile-profile-btn"><i class="fas fa-user"></i> Profile</a>
             <a href="#"><i class="fas fa-cog"></i> Settings</a>
         </div>
     </div>
@@ -931,13 +1012,13 @@
             <div class="sidebar-section">
                 <h3>CATEGORIES</h3>
                 <ul class="sidebar-links">
-                    <li><a href="#" class="active"><i class="fas fa-briefcase"></i> Business</a></li>
-                    <li><a href="#"><i class="fas fa-paint-brush"></i> Crafts</a></li>
-                    <li><a href="#"><i class="fas fa-graduation-cap"></i> Educational Projects</a></li>
-                    <li><a href="#"><i class="fas fa-palette"></i> Visual Arts</a></li>
-                    <li><a href="#"><i class="fas fa-laptop-code"></i> Technology</a></li>
-                    <li><a href="#"><i class="fas fa-hands-helping"></i> Social Initiatives</a></li>
-                    <li><a href="#"><i class="fas fa-music"></i> Entertainment</a></li>
+                    <li><a href="#" class="active category-filter" data-category="all">All Projects</a></li>
+                    <li><a href="#" class="category-filter" data-category="business"><i class="fas fa-briefcase"></i> Business</a></li>
+                    <li><a href="#" class="category-filter" data-category="crafts"><i class="fas fa-paint-brush"></i> Crafts</a></li>
+                    <li><a href="#" class="category-filter" data-category="education"><i class="fas fa-graduation-cap"></i> Educational</a></li>
+                    <li><a href="#" class="category-filter" data-category="arts"><i class="fas fa-palette"></i> Visual Arts</a></li>
+                    <li><a href="#" class="category-filter" data-category="tech"><i class="fas fa-laptop-code"></i> Technology</a></li>
+                    <li><a href="#" class="category-filter" data-category="social"><i class="fas fa-hands-helping"></i> Social Initiatives</a></li>
                 </ul>
             </div>
             <div class="sidebar-section">
@@ -952,7 +1033,7 @@
             <div class="sidebar-section">
                 <h3>COLLABORATION</h3>
                 <ul class="sidebar-links">
-                    <li><a href="#"><i class="fas fa-users"></i> Find Partners</a></li>
+                    <li><a href="#" id="find-partners-btn"><i class="fas fa-users"></i> Find Partners</a></li>
                     <li><a href="#"><i class="fas fa-project-diagram"></i> Team Projects</a></li>
                     <li><a href="#"><i class="fas fa-user-graduate"></i> Mentorship Program</a></li>
                 </ul>
@@ -969,13 +1050,10 @@
             </div>
 
             <div class="tabs">
-                <div class="tab active">Popular</div>
-                <div class="tab">Latest</div>
-                <div class="tab">Trending</div>
-                <div class="tab">Following</div>
-                <div class="tab">Business</div>
-                <div class="tab">Technology</div>
-                <div class="tab">Arts</div>
+                <div class="tab active" data-filter="popular">Popular</div>
+                <div class="tab" data-filter="latest">Latest</div>
+                <div class="tab" data-filter="trending">Trending</div>
+                <div class="tab" data-filter="following">Following</div>
             </div>
 
             <div class="posts" id="posts-container">
@@ -999,10 +1077,6 @@
                     <div class="trending-title">Community Garden Initiative</div>
                     <div class="trending-stats">87 upvotes · 29 comments</div>
                 </div>
-                <div class="trending-item">
-                    <div class="trending-title">Mental Health App for Students</div>
-                    <div class="trending-stats">76 upvotes · 22 comments</div>
-                </div>
             </div>
 
             <div class="resources-section">
@@ -1014,10 +1088,6 @@
                 <div class="resource-item">
                     <div class="resource-title">Social Media Marketing</div>
                     <div class="resource-description">How to promote your project on a budget</div>
-                </div>
-                <div class="resource-item">
-                    <div class="resource-title">Finding Mentors</div>
-                    <div class="resource-description">Connect with experienced entrepreneurs</div>
                 </div>
             </div>
 
@@ -1031,14 +1101,6 @@
                         <span class="tag">Education</span>
                     </div>
                 </div>
-                <div class="collaboration-item">
-                    <div class="collaboration-title">Graphic Designer Wanted</div>
-                    <div class="collaboration-description">Seeking a designer for a sustainable brand identity</div>
-                    <div class="collaboration-tags">
-                        <span class="tag">Design</span>
-                        <span class="tag">Business</span>
-                    </div>
-                </div>
             </div>
 
             <div class="premium-section">
@@ -1047,7 +1109,7 @@
                 <div class="premium-card">
                     <h3>InspireMe Premium</h3>
                     <p>Unlock all features for just $4.99/month</p>
-                    <button class="btn btn-primary" style="background: white; color: #764ba2;">Upgrade Now</button>
+                    <button class="btn btn-primary" id="premium-upgrade-btn" style="background: white; color: #764ba2;">Upgrade Now</button>
                 </div>
             </div>
         </aside>
@@ -1074,6 +1136,7 @@
                         <option value="education">Educational Projects</option>
                         <option value="arts">Visual Arts</option>
                         <option value="tech">Technology</option>
+                        <option value="social">Social Initiatives</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -1081,8 +1144,16 @@
                     <textarea id="post-content" class="form-control" placeholder="Tell us about your idea, project, or business..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="post-image">Image URL (optional)</label>
-                    <input type="text" id="post-image" class="form-control" placeholder="Paste image URL here">
+                    <label for="post-image">Upload Image</label>
+                    <div class="file-upload">
+                        <input type="file" id="post-image" accept="image/*">
+                        <div class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i> Click to upload an image
+                        </div>
+                    </div>
+                    <div id="image-preview" style="margin-top: 10px; display: none;">
+                        <img id="preview-img" style="max-width: 100%; border-radius: 8px;">
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">Publish Post</button>
             </form>
@@ -1150,21 +1221,26 @@
             </div>
             <div class="profile-header">
                 <div class="profile-info">
-                    <div class="profile-avatar">JD</div>
+                    <div class="profile-avatar" id="profile-avatar">
+                        <span id="profile-avatar-text">JD</span>
+                        <div class="profile-avatar-edit" id="avatar-edit-btn">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
                     <div class="profile-details">
-                        <h1>John Doe</h1>
-                        <p>Teen Entrepreneur | Business & Technology</p>
+                        <h1 id="profile-name">John Doe</h1>
+                        <p id="profile-bio">Teen Entrepreneur | Business & Technology</p>
                         <div class="profile-stats">
                             <div class="stat">
-                                <div class="stat-value">24</div>
+                                <div class="stat-value" id="profile-posts">24</div>
                                 <div class="stat-label">Posts</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">187</div>
+                                <div class="stat-value" id="profile-followers">187</div>
                                 <div class="stat-label">Followers</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">56</div>
+                                <div class="stat-value" id="profile-following">56</div>
                                 <div class="stat-label">Following</div>
                             </div>
                         </div>
@@ -1172,16 +1248,51 @@
                 </div>
             </div>
             <div style="padding: 20px;">
-                <h3 style="margin-bottom: 15px;">About Me</h3>
-                <p>Passionate about technology and entrepreneurship. Currently working on a mobile app that connects local artists with venues. Always looking for collaboration opportunities!</p>
-                
-                <h3 style="margin: 20px 0 15px;">Skills & Interests</h3>
-                <div class="collaboration-tags">
-                    <span class="tag">Web Development</span>
-                    <span class="tag">UI/UX Design</span>
-                    <span class="tag">Business Strategy</span>
-                    <span class="tag">Marketing</span>
+                <div class="form-group">
+                    <label for="edit-bio">About Me</label>
+                    <textarea id="edit-bio" class="form-control">Passionate about technology and entrepreneurship. Currently working on a mobile app that connects local artists with venues. Always looking for collaboration opportunities!</textarea>
                 </div>
+                
+                <div class="form-group">
+                    <label for="edit-skills">Skills & Interests</label>
+                    <input type="text" id="edit-skills" class="form-control" value="Web Development, UI/UX Design, Business Strategy, Marketing">
+                    <small style="color: #657786;">Separate with commas</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Profile Photo</label>
+                    <div class="file-upload">
+                        <input type="file" id="profile-photo" accept="image/*">
+                        <div class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload new profile photo
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="save-profile-btn" style="width: 100%; margin-top: 20px;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avatar Upload Modal -->
+    <div class="modal" id="avatar-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Change Profile Photo</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div style="padding: 20px; text-align: center;">
+                <div class="profile-avatar" style="width: 150px; height: 150px; margin: 0 auto 20px; font-size: 60px;">
+                    <img id="avatar-preview" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                    <span id="avatar-preview-text">JD</span>
+                </div>
+                <div class="file-upload">
+                    <input type="file" id="avatar-upload" accept="image/*">
+                    <div class="file-upload-label">
+                        <i class="fas fa-cloud-upload-alt"></i> Choose a photo
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="save-avatar-btn" style="width: 100%; margin-top: 20px;">Save Photo</button>
             </div>
         </div>
     </div>
@@ -1200,11 +1311,12 @@
                 user: {
                     name: "Jessica Smith",
                     initials: "JS",
+                    avatar: "",
                     color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                     premium: true
                 },
                 time: "2 hours ago",
-                category: "Business",
+                category: "business",
                 title: "Eco-Friendly Jewelry Business",
                 content: "I started creating jewelry from recycled materials six months ago. My small business now makes enough to cover my expenses and save for college! I've learned so much about sustainable materials and marketing to environmentally conscious customers.",
                 image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
@@ -1218,11 +1330,12 @@
                 user: {
                     name: "Alex Morgan",
                     initials: "AM",
+                    avatar: "",
                     color: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
                     premium: false
                 },
                 time: "5 hours ago",
-                category: "Technology",
+                category: "tech",
                 title: "App for Connecting Local Artists",
                 content: "I'm developing an app that helps local artists find venues to display their work. Looking for a UI/UX designer to collaborate with! The app will feature a map of available spaces, artist profiles, and an event calendar.",
                 image: "",
@@ -1236,11 +1349,12 @@
                 user: {
                     name: "Taylor Perez",
                     initials: "TP",
+                    avatar: "",
                     color: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
                     premium: true
                 },
                 time: "1 day ago",
-                category: "Crafts",
+                category: "crafts",
                 title: "Custom Painted Sneakers - My Journey",
                 content: "Started with one pair for myself, now I have orders from three states! Here's what I learned about pricing, marketing, and shipping. The key was finding my niche in pop culture-themed designs.",
                 image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1112&q=80",
@@ -1254,11 +1368,12 @@
                 user: {
                     name: "Jordan Lee",
                     initials: "JL",
+                    avatar: "",
                     color: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
                     premium: false
                 },
                 time: "2 days ago",
-                category: "Social Initiatives",
+                category: "social",
                 title: "Community Tutoring Program",
                 content: "Started a free tutoring program for middle school students in my neighborhood. We now have 15 volunteers and help over 50 students weekly with math and science. Looking to expand to more subjects!",
                 image: "https://images.unsplash.com/photo-1584697964358-3e14ca57658b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
@@ -1272,11 +1387,12 @@
                 user: {
                     name: "Riley Kim",
                     initials: "RK",
+                    avatar: "",
                     color: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
                     premium: true
                 },
                 time: "3 days ago",
-                category: "Educational Projects",
+                category: "education",
                 title: "Online Coding Workshops for Teens",
                 content: "I've been hosting free coding workshops for teenagers in my community. We've taught over 100 students the basics of HTML, CSS, and JavaScript. Looking for volunteers to help expand the program!",
                 image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
@@ -1296,6 +1412,7 @@
         const signupBtn = document.getElementById('signup-btn');
         const signupModal = document.getElementById('signup-modal');
         const profileModal = document.getElementById('profile-modal');
+        const avatarModal = document.getElementById('avatar-modal');
         const closeModalBtns = document.querySelectorAll('.close-modal');
         const switchToSignup = document.getElementById('switch-to-signup');
         const switchToLogin = document.getElementById('switch-to-login');
@@ -1308,36 +1425,62 @@
         const mobileNav = document.getElementById('mobile-nav');
         const mobileNavClose = document.getElementById('mobile-nav-close');
         const sidebar = document.getElementById('sidebar');
+        const profileBtn = document.getElementById('profile-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const premiumUpgradeBtn = document.getElementById('premium-upgrade-btn');
+        const findPartnersBtn = document.getElementById('find-partners-btn');
+        const avatarEditBtn = document.getElementById('avatar-edit-btn');
+        const saveProfileBtn = document.getElementById('save-profile-btn');
+        const saveAvatarBtn = document.getElementById('save-avatar-btn');
+        const mobileProfileBtn = document.getElementById('mobile-profile-btn');
 
         // State
         let posts = [...samplePosts];
         let currentUser = null;
-        let currentPage = 'home';
+        let currentFilter = 'all';
+        let userProfile = {
+            name: "John Doe",
+            bio: "Teen Entrepreneur | Business & Technology",
+            skills: "Web Development, UI/UX Design, Business Strategy, Marketing",
+            avatar: "",
+            posts: 24,
+            followers: 187,
+            following: 56
+        };
 
         // Initialize the app
         function init() {
             renderPosts();
             setupEventListeners();
+            updateProfileDisplay();
         }
 
         // Render posts to the DOM
         function renderPosts() {
             postsContainer.innerHTML = '';
             
-            posts.forEach(post => {
+            // Filter posts based on current filter
+            let filteredPosts = posts;
+            if (currentFilter !== 'all') {
+                filteredPosts = posts.filter(post => post.category === currentFilter);
+            }
+            
+            filteredPosts.forEach(post => {
                 const postElement = document.createElement('div');
                 postElement.className = 'post';
                 postElement.innerHTML = `
                     <div class="post-header">
-                        <div class="post-user-avatar" style="background: ${post.user.color}">${post.user.initials}</div>
+                        <div class="post-user-avatar" style="background: ${post.user.color}">
+                            ${post.user.avatar ? `<img src="${post.user.avatar}" alt="${post.user.name}">` : post.user.initials}
+                        </div>
                         <div class="user-info">
                             <div class="username">
                                 ${post.user.name}
                                 ${post.user.premium ? '<span class="premium-badge">PREMIUM</span>' : ''}
                             </div>
-                            <div class="post-time">${post.time} · ${post.category}</div>
+                            <div class="post-time">${post.time} · ${post.category.charAt(0).toUpperCase() + post.category.slice(1)}</div>
                         </div>
-                        <div class="post-category">${post.category}</div>
+                        <div class="post-category">${post.category.charAt(0).toUpperCase() + post.category.slice(1)}</div>
                     </div>
                     <div class="post-title">${post.title}</div>
                     <div class="post-content">
@@ -1374,6 +1517,36 @@
             document.querySelectorAll('.share-btn').forEach(btn => {
                 btn.addEventListener('click', handleShare);
             });
+        }
+
+        // Update profile display
+        function updateProfileDisplay() {
+            document.getElementById('profile-name').textContent = userProfile.name;
+            document.getElementById('profile-bio').textContent = userProfile.bio;
+            document.getElementById('profile-posts').textContent = userProfile.posts;
+            document.getElementById('profile-followers').textContent = userProfile.followers;
+            document.getElementById('profile-following').textContent = userProfile.following;
+            document.getElementById('edit-bio').value = userProfile.bio;
+            document.getElementById('edit-skills').value = userProfile.skills;
+            
+            // Update avatar
+            const avatarText = document.getElementById('avatar-text');
+            const profileAvatarText = document.getElementById('profile-avatar-text');
+            const avatarPreviewText = document.getElementById('avatar-preview-text');
+            
+            if (userProfile.avatar) {
+                avatarText.innerHTML = `<img src="${userProfile.avatar}" alt="${userProfile.name}">`;
+                profileAvatarText.innerHTML = `<img src="${userProfile.avatar}" alt="${userProfile.name}">`;
+                avatarPreviewText.style.display = 'none';
+                document.getElementById('avatar-preview').src = userProfile.avatar;
+                document.getElementById('avatar-preview').style.display = 'block';
+            } else {
+                avatarText.textContent = userProfile.name.split(' ').map(n => n[0]).join('');
+                profileAvatarText.textContent = userProfile.name.split(' ').map(n => n[0]).join('');
+                avatarPreviewText.textContent = userProfile.name.split(' ').map(n => n[0]).join('');
+                avatarPreviewText.style.display = 'block';
+                document.getElementById('avatar-preview').style.display = 'none';
+            }
         }
 
         // Handle like functionality
@@ -1502,6 +1675,59 @@
             }, 3000);
         }
 
+        // Handle file upload and preview
+        function setupFileUpload() {
+            // Post image upload
+            const postImageInput = document.getElementById('post-image');
+            const imagePreview = document.getElementById('image-preview');
+            const previewImg = document.getElementById('preview-img');
+            
+            postImageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Profile photo upload
+            const profilePhotoInput = document.getElementById('profile-photo');
+            profilePhotoInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        userProfile.avatar = e.target.result;
+                        updateProfileDisplay();
+                        showNotification("Profile photo updated!");
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Avatar upload
+            const avatarUploadInput = document.getElementById('avatar-upload');
+            const avatarPreview = document.getElementById('avatar-preview');
+            const avatarPreviewText = document.getElementById('avatar-preview-text');
+            
+            avatarUploadInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        avatarPreview.src = e.target.result;
+                        avatarPreview.style.display = 'block';
+                        avatarPreviewText.style.display = 'none';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
         // Setup event listeners
         function setupEventListeners() {
             // Modal open buttons
@@ -1522,6 +1748,43 @@
                 signupModal.style.display = 'flex';
             });
 
+            profileBtn.addEventListener('click', () => {
+                profileModal.style.display = 'flex';
+                dropdownMenu.classList.remove('show');
+            });
+
+            mobileProfileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                profileModal.style.display = 'flex';
+                mobileNav.classList.remove('show');
+            });
+
+            avatarEditBtn.addEventListener('click', () => {
+                avatarModal.style.display = 'flex';
+            });
+
+            saveProfileBtn.addEventListener('click', () => {
+                userProfile.bio = document.getElementById('edit-bio').value;
+                userProfile.skills = document.getElementById('edit-skills').value;
+                updateProfileDisplay();
+                showNotification("Profile updated successfully!");
+                profileModal.style.display = 'none';
+            });
+
+            saveAvatarBtn.addEventListener('click', () => {
+                const avatarUpload = document.getElementById('avatar-upload');
+                if (avatarUpload.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        userProfile.avatar = e.target.result;
+                        updateProfileDisplay();
+                        showNotification("Avatar updated successfully!");
+                    }
+                    reader.readAsDataURL(avatarUpload.files[0]);
+                }
+                avatarModal.style.display = 'none';
+            });
+
             // Close modals
             closeModalBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -1529,6 +1792,7 @@
                     loginModal.style.display = 'none';
                     signupModal.style.display = 'none';
                     profileModal.style.display = 'none';
+                    avatarModal.style.display = 'none';
                 });
             });
 
@@ -1571,6 +1835,9 @@
                 if (e.target === profileModal) {
                     profileModal.style.display = 'none';
                 }
+                if (e.target === avatarModal) {
+                    avatarModal.style.display = 'none';
+                }
             });
 
             // Tab functionality
@@ -1579,22 +1846,38 @@
                     tabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
                     
-                    const tabName = tab.textContent;
-                    let filteredPosts = [...samplePosts];
-                    
-                    if (tabName === 'Business') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Business');
-                    } else if (tabName === 'Technology') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Technology');
-                    } else if (tabName === 'Arts') {
-                        filteredPosts = samplePosts.filter(post => 
-                            post.category === 'Crafts' || post.category === 'Visual Arts'
-                        );
+                    const filter = tab.getAttribute('data-filter');
+                    if (filter === 'popular') {
+                        posts = [...samplePosts].sort((a, b) => b.likes - a.likes);
+                    } else if (filter === 'latest') {
+                        posts = [...samplePosts].reverse();
+                    } else if (filter === 'trending') {
+                        posts = [...samplePosts].sort((a, b) => (b.likes + b.comments) - (a.likes + a.comments));
+                    } else {
+                        posts = [...samplePosts];
                     }
                     
-                    posts = filteredPosts;
                     renderPosts();
-                    showNotification(`Showing ${tabName} posts`);
+                    showNotification(`Showing ${tab.textContent} posts`);
+                });
+            });
+
+            // Category filtering
+            document.querySelectorAll('.category-filter').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Update active state
+                    document.querySelectorAll('.category-filter').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    currentFilter = link.getAttribute('data-category');
+                    renderPosts();
+                    
+                    // Close sidebar on mobile after selection
+                    if (window.innerWidth <= 900) {
+                        sidebar.classList.remove('show');
+                    }
                 });
             });
 
@@ -1614,39 +1897,48 @@
                 });
             }
 
+            // Logout functionality
+            logoutBtn.addEventListener('click', () => {
+                currentUser = null;
+                showNotification("Logged out successfully!");
+                location.reload();
+            });
+
+            // Premium upgrade
+            premiumUpgradeBtn.addEventListener('click', () => {
+                if (!currentUser) {
+                    showNotification("Please log in to upgrade to Premium", "error");
+                    loginModal.style.display = 'flex';
+                    return;
+                }
+                showNotification("Premium features unlocked! (Demo)");
+            });
+
+            // Find partners
+            findPartnersBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showNotification("Browse collaboration opportunities in the right sidebar");
+            });
+
             // Form submissions
             document.getElementById('post-form').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const title = document.getElementById('post-title').value;
                 const category = document.getElementById('post-category').value;
                 const content = document.getElementById('post-content').value;
-                const image = document.getElementById('post-image').value;
+                const imageInput = document.getElementById('post-image');
                 
-                // Create new post
-                const newPost = {
-                    id: posts.length + 1,
-                    user: {
-                        name: "You",
-                        initials: "ME",
-                        color: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
-                        premium: false
-                    },
-                    time: "Just now",
-                    category: category,
-                    title: title,
-                    content: content,
-                    image: image,
-                    likes: 0,
-                    comments: 0,
-                    shares: 0,
-                    liked: false
-                };
-                
-                posts.unshift(newPost);
-                renderPosts();
-                createPostModal.style.display = 'none';
-                document.getElementById('post-form').reset();
-                showNotification("Your post has been published!");
+                let imageUrl = "";
+                if (imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imageUrl = e.target.result;
+                        createNewPost(title, category, content, imageUrl);
+                    }
+                    reader.readAsDataURL(imageInput.files[0]);
+                } else {
+                    createNewPost(title, category, content, imageUrl);
+                }
             });
 
             document.getElementById('login-form').addEventListener('submit', (e) => {
@@ -1664,46 +1956,37 @@
                     // Update UI for logged in user
                     document.querySelector('.user-actions').innerHTML = `
                         <div class="user-menu">
-                            <div class="user-avatar" id="user-menu-btn">JD</div>
+                            <div class="user-avatar" id="user-menu-btn">
+                                <span id="avatar-text">JD</span>
+                            </div>
                             <div class="dropdown-menu" id="dropdown-menu">
-                                <a href="#" class="dropdown-item" id="profile-btn"><i class="fas fa-user"></i> My Profile</a>
-                                <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
-                                <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                                <button class="dropdown-item" id="profile-btn"><i class="fas fa-user"></i> My Profile</button>
+                                <button class="dropdown-item" id="saved-posts-btn"><i class="fas fa-bookmark"></i> Saved Posts</button>
+                                <button class="dropdown-item" id="settings-btn"><i class="fas fa-cog"></i> Settings</button>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
-                                <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                                <button class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</button>
+                                <button class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</button>
                             </div>
                         </div>
                     `;
                     
-                    // Reattach event listeners for new user menu
-                    const newUserMenuBtn = document.getElementById('user-menu-btn');
-                    const newDropdownMenu = document.getElementById('dropdown-menu');
+                    // Reattach event listeners
+                    const newProfileBtn = document.getElementById('profile-btn');
                     const newLogoutBtn = document.getElementById('logout-btn');
-                    const profileBtn = document.getElementById('profile-btn');
                     
-                    newUserMenuBtn.addEventListener('click', () => {
-                        newDropdownMenu.classList.toggle('show');
+                    newProfileBtn.addEventListener('click', () => {
+                        profileModal.style.display = 'flex';
+                        dropdownMenu.classList.remove('show');
                     });
                     
-                    newLogoutBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
+                    newLogoutBtn.addEventListener('click', () => {
                         currentUser = null;
                         showNotification("Logged out successfully!");
                         location.reload();
                     });
                     
-                    profileBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        profileModal.style.display = 'flex';
-                        newDropdownMenu.classList.remove('show');
-                    });
-                    
-                    // Close dropdown when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!e.target.closest('.user-menu')) {
-                            newDropdownMenu.classList.remove('show');
-                        }
+                    document.getElementById('user-menu-btn').addEventListener('click', () => {
+                        dropdownMenu.classList.toggle('show');
                     });
                 } else {
                     showNotification("Please fill in all fields", "error");
@@ -1719,6 +2002,7 @@
                 // Simulate signup
                 if (name && email && password) {
                     currentUser = { name: name, email: email };
+                    userProfile.name = name;
                     signupModal.style.display = 'none';
                     document.getElementById('signup-form').reset();
                     showNotification("Account created successfully!");
@@ -1726,47 +2010,40 @@
                     // Update UI for logged in user
                     document.querySelector('.user-actions').innerHTML = `
                         <div class="user-menu">
-                            <div class="user-avatar" id="user-menu-btn">${name.charAt(0)}</div>
+                            <div class="user-avatar" id="user-menu-btn">
+                                <span id="avatar-text">${name.split(' ').map(n => n[0]).join('')}</span>
+                            </div>
                             <div class="dropdown-menu" id="dropdown-menu">
-                                <a href="#" class="dropdown-item" id="profile-btn"><i class="fas fa-user"></i> My Profile</a>
-                                <a href="#" class="dropdown-item"><i class="fas fa-bookmark"></i> Saved Posts</a>
-                                <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                                <button class="dropdown-item" id="profile-btn"><i class="fas fa-user"></i> My Profile</button>
+                                <button class="dropdown-item" id="saved-posts-btn"><i class="fas fa-bookmark"></i> Saved Posts</button>
+                                <button class="dropdown-item" id="settings-btn"><i class="fas fa-cog"></i> Settings</button>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</a>
-                                <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                                <button class="dropdown-item"><i class="fas fa-question-circle"></i> Help & Support</button>
+                                <button class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</button>
                             </div>
                         </div>
                     `;
                     
-                    // Reattach event listeners for new user menu
-                    const newUserMenuBtn = document.getElementById('user-menu-btn');
-                    const newDropdownMenu = document.getElementById('dropdown-menu');
+                    // Reattach event listeners
+                    const newProfileBtn = document.getElementById('profile-btn');
                     const newLogoutBtn = document.getElementById('logout-btn');
-                    const profileBtn = document.getElementById('profile-btn');
                     
-                    newUserMenuBtn.addEventListener('click', () => {
-                        newDropdownMenu.classList.toggle('show');
+                    newProfileBtn.addEventListener('click', () => {
+                        profileModal.style.display = 'flex';
+                        dropdownMenu.classList.remove('show');
                     });
                     
-                    newLogoutBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
+                    newLogoutBtn.addEventListener('click', () => {
                         currentUser = null;
                         showNotification("Logged out successfully!");
                         location.reload();
                     });
                     
-                    profileBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        profileModal.style.display = 'flex';
-                        newDropdownMenu.classList.remove('show');
+                    document.getElementById('user-menu-btn').addEventListener('click', () => {
+                        dropdownMenu.classList.toggle('show');
                     });
                     
-                    // Close dropdown when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!e.target.closest('.user-menu')) {
-                            newDropdownMenu.classList.remove('show');
-                        }
-                    });
+                    updateProfileDisplay();
                 } else {
                     showNotification("Please fill in all required fields", "error");
                 }
@@ -1796,81 +2073,6 @@
                 }
             });
 
-            // Add category filtering from sidebar
-            const categoryLinks = document.querySelectorAll('.sidebar-links a');
-            categoryLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    // Update active state
-                    categoryLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                    
-                    const category = link.textContent.trim();
-                    let filteredPosts = [...samplePosts];
-                    
-                    if (category === 'Business') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Business');
-                    } else if (category === 'Technology') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Technology');
-                    } else if (category === 'Crafts') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Crafts');
-                    } else if (category === 'Educational Projects') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Educational Projects');
-                    } else if (category === 'Visual Arts') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Visual Arts');
-                    } else if (category === 'Social Initiatives') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Social Initiatives');
-                    } else if (category === 'Entertainment') {
-                        filteredPosts = samplePosts.filter(post => post.category === 'Entertainment');
-                    }
-                    
-                    posts = filteredPosts;
-                    renderPosts();
-                    showNotification(`Showing ${category} projects`);
-                    
-                    // Close sidebar on mobile after selection
-                    if (window.innerWidth <= 900) {
-                        sidebar.classList.remove('show');
-                    }
-                });
-            });
-
-            // Add navigation functionality
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    // Update active state
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                    
-                    const page = link.textContent.trim();
-                    if (page === 'Home') {
-                        posts = [...samplePosts];
-                        renderPosts();
-                        showNotification("Welcome to InspireMe Home!");
-                    } else if (page === 'Categories') {
-                        showNotification("Browse projects by category");
-                    } else if (page === 'Partnerships') {
-                        showNotification("Find collaboration opportunities");
-                    } else if (page === 'Resources') {
-                        showNotification("Access learning materials and guides");
-                    }
-                });
-            });
-
-            // Add premium upgrade functionality
-            document.querySelector('.premium-card .btn').addEventListener('click', function() {
-                if (!currentUser) {
-                    showNotification("Please log in to upgrade to Premium", "error");
-                    loginModal.style.display = 'flex';
-                    return;
-                }
-                showNotification("Premium upgrade modal would open here!");
-            });
-
             // Handle window resize for responsive behavior
             window.addEventListener('resize', () => {
                 if (window.innerWidth > 900) {
@@ -1878,6 +2080,41 @@
                     mobileNav.classList.remove('show');
                 }
             });
+
+            // Setup file upload functionality
+            setupFileUpload();
+        }
+
+        // Create new post
+        function createNewPost(title, category, content, imageUrl) {
+            const newPost = {
+                id: posts.length + 1,
+                user: {
+                    name: userProfile.name,
+                    initials: userProfile.name.split(' ').map(n => n[0]).join(''),
+                    avatar: userProfile.avatar,
+                    color: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+                    premium: false
+                },
+                time: "Just now",
+                category: category,
+                title: title,
+                content: content,
+                image: imageUrl,
+                likes: 0,
+                comments: 0,
+                shares: 0,
+                liked: false
+            };
+            
+            posts.unshift(newPost);
+            userProfile.posts++;
+            renderPosts();
+            updateProfileDisplay();
+            createPostModal.style.display = 'none';
+            document.getElementById('post-form').reset();
+            document.getElementById('image-preview').style.display = 'none';
+            showNotification("Your post has been published!");
         }
 
         // Initialize the application
