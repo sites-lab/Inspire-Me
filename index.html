@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InspireMe - Social Platform for Entrepreneurs</title>
+    <title>InspireMe - Platform for Teen Entrepreneurs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Firebase -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    <!-- Stripe -->
-    <script src="https://js.stripe.com/v3/"></script>
     <style>
         :root {
             --primary-color: #1DA1F2;
@@ -850,53 +848,7 @@
             cursor: pointer;
         }
 
-        /* Payment Styles */
-        .payment-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 20px 0;
-        }
-
-        .payment-methods {
-            display: flex;
-            gap: 15px;
-            margin: 15px 0;
-        }
-
-        .payment-method {
-            flex: 1;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .payment-method.selected {
-            border-color: var(--primary-color);
-            background-color: rgba(29, 161, 242, 0.1);
-        }
-
-        .payment-method i {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #666;
-        }
-
-        .payment-method.selected i {
-            color: var(--primary-color);
-        }
-
-        .card-element {
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: white;
-            margin: 15px 0;
-        }
-
+        /* Loading */
         .loading {
             display: inline-block;
             width: 20px;
@@ -1114,7 +1066,6 @@
             </div>
 
             <div class="posts" id="posts-container">
-                <!-- Posts will be dynamically loaded from Firebase -->
                 <div class="loading-posts" style="text-align: center; padding: 40px;">
                     <div class="loading" style="margin: 0 auto;"></div>
                     <p style="margin-top: 15px; color: #657786;">Loading posts...</p>
@@ -1127,7 +1078,18 @@
             <div class="trending-section">
                 <h3 class="section-title">Trending Projects</h3>
                 <div id="trending-posts">
-                    <!-- Trending posts will be loaded dynamically -->
+                    <div class="trending-item">
+                        <div class="trending-title">Sustainable Fashion Line</div>
+                        <div class="trending-stats">124 upvotes · 36 comments</div>
+                    </div>
+                    <div class="trending-item">
+                        <div class="trending-title">Coding Bootcamp for Teens</div>
+                        <div class="trending-stats">98 upvotes · 41 comments</div>
+                    </div>
+                    <div class="trending-item">
+                        <div class="trending-title">Community Garden Initiative</div>
+                        <div class="trending-stats">87 upvotes · 29 comments</div>
+                    </div>
                 </div>
             </div>
 
@@ -1145,8 +1107,13 @@
 
             <div class="collaboration-section">
                 <h3 class="section-title">Collaboration Opportunities</h3>
-                <div id="collaboration-posts">
-                    <!-- Collaboration posts will be loaded dynamically -->
+                <div class="collaboration-item">
+                    <div class="collaboration-title">Web Developer Needed</div>
+                    <div class="collaboration-description">Looking for a frontend developer for an educational platform</div>
+                    <div class="collaboration-tags">
+                        <span class="tag">Technology</span>
+                        <span class="tag">Education</span>
+                    </div>
                 </div>
             </div>
 
@@ -1334,63 +1301,6 @@
         </div>
     </div>
 
-    <!-- Payment Modal -->
-    <div class="modal" id="payment-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Upgrade to Premium</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div style="padding: 20px;">
-                <div class="payment-section">
-                    <h3 style="margin-bottom: 15px;">Choose Your Plan</h3>
-                    <div class="payment-methods">
-                        <div class="payment-method selected" data-plan="monthly">
-                            <i class="fas fa-calendar-alt"></i>
-                            <div class="plan-name">Monthly</div>
-                            <div class="plan-price">$4.99/month</div>
-                        </div>
-                        <div class="payment-method" data-plan="yearly">
-                            <i class="fas fa-calendar-star"></i>
-                            <div class="plan-name">Yearly</div>
-                            <div class="plan-price">$49.99/year</div>
-                            <div class="plan-save">Save 16%</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="payment-section">
-                    <h3 style="margin-bottom: 15px;">Payment Method</h3>
-                    <div class="payment-methods">
-                        <div class="payment-method selected" data-method="card">
-                            <i class="fas fa-credit-card"></i>
-                            <div class="plan-name">Credit/Debit Card</div>
-                        </div>
-                    </div>
-                    
-                    <div id="card-payment" style="margin-top: 20px;">
-                        <div class="form-group">
-                            <label>Card Information</label>
-                            <div id="card-element" class="card-element">
-                                <!-- Stripe Card Element will be inserted here -->
-                            </div>
-                            <div id="card-errors" style="color: var(--error-color); font-size: 14px; margin-top: 8px;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary" id="submit-payment-btn" style="width: 100%; padding: 12px;">
-                    <span id="submit-payment-text">Upgrade to Premium - $4.99/month</span>
-                    <div class="loading" id="payment-loading" style="display: none;"></div>
-                </button>
-                
-                <p style="text-align: center; margin-top: 15px; font-size: 12px; color: #657786;">
-                    You can cancel your subscription at any time
-                </p>
-            </div>
-        </div>
-    </div>
-
     <!-- Notification -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle" id="notification-icon" style="color: var(--success-color);"></i>
@@ -1398,33 +1308,33 @@
     </div>
 
     <script>
-        // Firebase Configuration
+        // 🔥 FIREBASE CONFIGURATION - USE YOUR KEYS
         const firebaseConfig = {
-            apiKey: "AIzaSyC4R6ANRkmT16TR65w2XSSU_yb2AtM1PcE",
+            apiKey: "AIzaSyBHKcf6KLwc7MiePcfrrUwKGOUsALmlmFI",
             authDomain: "inspireme-social.firebaseapp.com",
             projectId: "inspireme-social",
-            storageBucket: "inspireme-social.appspot.com",
-            messagingSenderId: "123456789012",
-            appId: "1:123456789012:web:abcdef123456"
+            storageBucket: "inspireme-social.firebasestorage.app",
+            messagingSenderId: "323330996627",
+            appId: "1:323330996627:web:addfcd9f49a8337b901066"
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log("Firebase initialized successfully!");
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+        }
+
         const auth = firebase.auth();
         const db = firebase.firestore();
         const storage = firebase.storage();
-
-        // Stripe Configuration (Test mode - replace with your publishable key)
-        const stripe = Stripe('pk_test_51QN9EXAMPLE'); // Replace with your Stripe publishable key
-        let elements;
-        let cardElement;
 
         // Global State
         let currentUser = null;
         let userProfile = null;
         let posts = [];
         let currentFilter = 'all';
-        let selectedPlan = 'monthly';
 
         // DOM Elements
         const postsContainer = document.getElementById('posts-container');
@@ -1435,7 +1345,6 @@
         const signupBtn = document.getElementById('signup-btn');
         const signupModal = document.getElementById('signup-modal');
         const profileModal = document.getElementById('profile-modal');
-        const paymentModal = document.getElementById('payment-modal');
         const closeModalBtns = document.querySelectorAll('.close-modal');
         const switchToSignup = document.getElementById('switch-to-signup');
         const switchToLogin = document.getElementById('switch-to-login');
@@ -1456,36 +1365,8 @@
         // Initialize the application
         function init() {
             setupEventListeners();
-            setupStripe();
             checkAuthState();
             loadPosts();
-        }
-
-        // Setup Stripe Elements
-        function setupStripe() {
-            elements = stripe.elements();
-            cardElement = elements.create('card', {
-                style: {
-                    base: {
-                        fontSize: '16px',
-                        color: '#424770',
-                        '::placeholder': {
-                            color: '#aab7c4',
-                        },
-                    },
-                },
-            });
-            cardElement.mount('#card-element');
-
-            // Handle real-time validation errors from the card Element
-            cardElement.on('change', function(event) {
-                const displayError = document.getElementById('card-errors');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
-                } else {
-                    displayError.textContent = '';
-                }
-            });
         }
 
         // Check authentication state
@@ -1530,37 +1411,6 @@
             } catch (error) {
                 console.error('Error loading user profile:', error);
                 showNotification('Error loading profile', 'error');
-            }
-        }
-
-        // Update profile display
-        function updateProfileDisplay() {
-            if (!userProfile) return;
-
-            document.getElementById('profile-name').textContent = userProfile.name;
-            document.getElementById('profile-bio').textContent = userProfile.bio;
-            document.getElementById('profile-posts').textContent = userProfile.posts || 0;
-            document.getElementById('profile-followers').textContent = userProfile.followers || 0;
-            document.getElementById('profile-following').textContent = userProfile.following || 0;
-            document.getElementById('edit-bio').value = userProfile.bio;
-            document.getElementById('edit-skills').value = userProfile.skills;
-            
-            // Update avatar
-            const avatarText = document.getElementById('avatar-text');
-            const profileAvatarText = document.getElementById('profile-avatar-text');
-            const profileAvatarImg = document.getElementById('profile-avatar-img');
-            
-            if (userProfile.avatar) {
-                avatarText.style.display = 'none';
-                profileAvatarText.style.display = 'none';
-                profileAvatarImg.src = userProfile.avatar;
-                profileAvatarImg.style.display = 'block';
-            } else {
-                avatarText.style.display = 'flex';
-                profileAvatarText.style.display = 'flex';
-                profileAvatarImg.style.display = 'none';
-                avatarText.textContent = userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase();
-                profileAvatarText.textContent = userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase();
             }
         }
 
@@ -1687,8 +1537,6 @@
             
             const postId = e.currentTarget.getAttribute('data-id');
             const post = posts.find(p => p.id === postId);
-            const likeBtn = e.currentTarget;
-            const likeCount = likeBtn.querySelector('.like-count');
             
             try {
                 const postRef = db.collection('posts').doc(postId);
@@ -1700,8 +1548,6 @@
                         likes: firebase.firestore.FieldValue.increment(-1),
                         likedBy: firebase.firestore.FieldValue.arrayRemove(currentUser.uid)
                     });
-                    likeBtn.classList.remove('liked');
-                    likeCount.textContent = (post.likes || 1) - 1;
                     showNotification("Like removed");
                 } else {
                     // Like the post
@@ -1709,8 +1555,6 @@
                         likes: firebase.firestore.FieldValue.increment(1),
                         likedBy: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
                     });
-                    likeBtn.classList.add('liked');
-                    likeCount.textContent = (post.likes || 0) + 1;
                     showNotification("Post liked!");
                 }
                 
@@ -1731,7 +1575,6 @@
             }
             
             const postId = e.currentTarget.getAttribute('data-id');
-            // Implementation for comments would go here
             showNotification("Comment feature coming soon!");
         }
 
@@ -1744,7 +1587,6 @@
             }
             
             const postId = e.currentTarget.getAttribute('data-id');
-            // Implementation for sharing would go here
             showNotification("Share feature coming soon!");
         }
 
@@ -1810,6 +1652,37 @@
             });
         }
 
+        // Update profile display
+        function updateProfileDisplay() {
+            if (!userProfile) return;
+
+            document.getElementById('profile-name').textContent = userProfile.name;
+            document.getElementById('profile-bio').textContent = userProfile.bio;
+            document.getElementById('profile-posts').textContent = userProfile.posts || 0;
+            document.getElementById('profile-followers').textContent = userProfile.followers || 0;
+            document.getElementById('profile-following').textContent = userProfile.following || 0;
+            document.getElementById('edit-bio').value = userProfile.bio;
+            document.getElementById('edit-skills').value = userProfile.skills;
+            
+            // Update avatar
+            const avatarText = document.getElementById('avatar-text');
+            const profileAvatarText = document.getElementById('profile-avatar-text');
+            const profileAvatarImg = document.getElementById('profile-avatar-img');
+            
+            if (userProfile.avatar) {
+                avatarText.style.display = 'none';
+                profileAvatarText.style.display = 'none';
+                profileAvatarImg.src = userProfile.avatar;
+                profileAvatarImg.style.display = 'block';
+            } else {
+                avatarText.style.display = 'flex';
+                profileAvatarText.style.display = 'flex';
+                profileAvatarImg.style.display = 'none';
+                avatarText.textContent = userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                profileAvatarText.textContent = userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            }
+        }
+
         // Handle logout
         async function handleLogout() {
             try {
@@ -1833,21 +1706,12 @@
                 createPostModal.style.display = 'flex';
             });
 
-            loginBtn?.addEventListener('click', () => {
+            loginBtn.addEventListener('click', () => {
                 loginModal.style.display = 'flex';
             });
 
-            signupBtn?.addEventListener('click', () => {
+            signupBtn.addEventListener('click', () => {
                 signupModal.style.display = 'flex';
-            });
-
-            premiumUpgradeBtn.addEventListener('click', () => {
-                if (!currentUser) {
-                    showNotification("Please log in to upgrade to Premium", "error");
-                    loginModal.style.display = 'flex';
-                    return;
-                }
-                paymentModal.style.display = 'flex';
             });
 
             // Close modals
@@ -1857,7 +1721,6 @@
                     loginModal.style.display = 'none';
                     signupModal.style.display = 'none';
                     profileModal.style.display = 'none';
-                    paymentModal.style.display = 'none';
                 });
             });
 
@@ -1880,7 +1743,6 @@
                 if (e.target === loginModal) loginModal.style.display = 'none';
                 if (e.target === signupModal) signupModal.style.display = 'none';
                 if (e.target === profileModal) profileModal.style.display = 'none';
-                if (e.target === paymentModal) paymentModal.style.display = 'none';
             });
 
             // Mobile menu functionality
@@ -2113,61 +1975,25 @@
                 }
             });
 
-            // Payment functionality
-            document.querySelectorAll('.payment-method[data-plan]').forEach(method => {
-                method.addEventListener('click', () => {
-                    document.querySelectorAll('.payment-method[data-plan]').forEach(m => m.classList.remove('selected'));
-                    method.classList.add('selected');
-                    selectedPlan = method.getAttribute('data-plan');
-                    
-                    const price = selectedPlan === 'monthly' ? '$4.99/month' : '$49.99/year';
-                    document.getElementById('submit-payment-text').textContent = `Upgrade to Premium - ${price}`;
-                });
+            // Premium upgrade
+            premiumUpgradeBtn.addEventListener('click', () => {
+                if (!currentUser) {
+                    showNotification("Please log in to upgrade to Premium", "error");
+                    loginModal.style.display = 'flex';
+                    return;
+                }
+                showNotification("Premium features unlocked! (Demo)");
             });
 
-            // Process payment
-            document.getElementById('submit-payment-btn').addEventListener('click', async (e) => {
+            // Find partners
+            findPartnersBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                
-                if (!currentUser) return;
-                
-                const submitText = document.getElementById('submit-payment-text');
-                const loading = document.getElementById('payment-loading');
-                
-                submitText.style.display = 'none';
-                loading.style.display = 'inline-block';
-                
-                try {
-                    // In a real application, you would create a payment intent on your server
-                    // For demo purposes, we'll simulate a successful payment
-                    
-                    // Simulate API call delay
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    
-                    // Update user to premium
-                    await db.collection('users').doc(currentUser.uid).update({
-                        premium: true,
-                        premiumSince: new Date(),
-                        premiumPlan: selectedPlan
-                    });
-                    
-                    userProfile.premium = true;
-                    paymentModal.style.display = 'none';
-                    showNotification("🎉 Welcome to InspireMe Premium!");
-                    
-                } catch (error) {
-                    console.error('Error processing payment:', error);
-                    showNotification('Error processing payment', 'error');
-                } finally {
-                    submitText.style.display = 'inline';
-                    loading.style.display = 'none';
-                }
+                showNotification("Browse collaboration opportunities in the right sidebar");
             });
 
             // Search functionality
             searchInput.addEventListener('input', (e) => {
                 const searchTerm = e.target.value.toLowerCase();
-                // Search implementation would filter posts based on the search term
                 if (searchTerm.length > 2) {
                     showNotification(`Searching for "${searchTerm}"`);
                 }
